@@ -12,6 +12,8 @@ use uniswap_v3_math::tick_math;
 pub const MIN_SQRT_RATIO: U256 = U256([4295128739, 0, 0, 0]);
 pub const MAX_SQRT_RATIO: U256 = U256([6743328256752651558, 17280870778742802505, 4294805859, 0]);
 
+/// Steps in a Uniswap V3 swap
+/// See[`StepComputation`](https://github.com/Uniswap/v3-core/blob/d8b1c635c275d2a9450bd6a78f3fa2484fef73eb/contracts/UniswapV3Pool.sol#L578)
 #[derive(Default, Debug, Clone)]
 pub struct Step {
     pub sqrt_price_start_x96: U256,
@@ -23,6 +25,8 @@ pub struct Step {
     pub fee_amount: U256,
 }
 
+/// Current state of a Uniswap V3 swap
+/// See [`SwapState`](https://github.com/Uniswap/v3-core/blob/d8b1c635c275d2a9450bd6a78f3fa2484fef73eb/contracts/UniswapV3Pool.sol#L561)
 #[derive(Debug, Clone)]
 pub struct CurrentState {
     amount_specified_remaining: I256,
@@ -32,6 +36,8 @@ pub struct CurrentState {
     liquidity: u128,
 }
 
+/// Tick data for a Uniswap V3 pool
+/// See [`Tick`](https://github.com/Uniswap/v3-core/blob/main/contracts/libraries/Tick.sol)
 pub struct Tick {
     pub liquidity_gross: u128,
     pub liquidity_net: i128,
@@ -43,6 +49,24 @@ pub struct Tick {
     pub initialized: bool,
 }
 
+/// Calls the [batch request](batch_requests::uniswap_v3::get_uniswap_v3_tick_data_batch_request) to get tick data for a Uniswap V3 pool
+///
+/// # Arguments
+/// * `uniswapv3_pool` - A Uniswap V3 pool
+/// * `zero_for_one` - Whether the pool is token0/token1 or token1/token0
+/// * `provider` - A provider
+///
+/// # Returns
+/// * `u128` - token0 reserve
+/// * `u128` - token1 reserve
+/// * `u32` - fee
+/// * `u128` - liquidity
+/// * `U256` - sqrt_price
+/// * `i32` - tick
+/// * `Vec<UniswapV3TickData>` - tick data
+/// * `i128` - liquidity_net
+/// * `u8` - token0 decimals
+/// * `u8` - token1 decimals
 pub async fn get_pool_data<M>(
     uniswapv3_pool: UniswapV3Pool,
     zero_for_one: bool,
@@ -113,6 +137,22 @@ where
     ))
 }
 
+/// Gets the amount of tokens out from the amount of tokens in
+/// Note: token0_in and token1_in cannot be both provided
+/// See [`get_tokens_in_from_tokens_out()`](crate::v3::swap::get_tokens_in_from_tokens_out)
+///
+/// # Arguments
+/// * `token0_in` - Amount of token0 in
+/// * `token1_in` - Amount of token1 in
+/// * `tick` - Tick
+/// * `sqrt_price` - Sqrt price
+/// * `liquidity` - Liquidity
+/// * `liquidity_net` - Liquidity net
+/// * `tick_data` - Tick data
+/// * `fee` - Fee
+///
+/// # Returns
+/// * `f64` - Amount of out
 pub fn get_tokens_in_from_tokens_out(
     token0_out: Option<f64>,
     token1_out: Option<f64>,
@@ -165,6 +205,22 @@ pub fn get_tokens_in_from_tokens_out(
     }
 }
 
+/// Gets the amount of tokens out from the amount of tokens in
+/// Note: token0_in and token1_in cannot be both provided
+/// See [`get_tokens_in_from_tokens_out()`](crate::v3::swap::get_tokens_in_from_tokens_out)
+///
+/// # Arguments
+/// * `token0_in` - Amount of token0 in
+/// * `token1_in` - Amount of token1 in
+/// * `tick` - Tick
+/// * `sqrt_price` - Sqrt price
+/// * `liquidity` - Liquidity
+/// * `liquidity_net` - Liquidity net
+/// * `tick_data` - Tick data
+/// * `fee` - Fee
+///
+/// # Returns
+/// * `f64` - Amount of out
 pub fn get_tokens_out_from_tokens_in(
     token0_in: Option<f64>,
     token1_in: Option<f64>,
@@ -217,7 +273,25 @@ pub fn get_tokens_out_from_tokens_in(
     }
 }
 
-// function assumes getting exact amount out
+/// Simulates a Uniswap V3 swap
+/// See [`swap()`](https://github.com/Uniswap/v3-core/blob/d8b1c635c275d2a9450bd6a78f3fa2484fef73eb/contracts/UniswapV3Pool.sol#L596)
+///
+/// # Arguments
+/// * `amount_in` - Amount in
+/// * `tick` - Tick
+/// * `sqrt_price_x96` - Sqrt price
+/// * `liquidity` - Liquidity
+/// * `tick_data` - Tick data
+/// * `liquidity_net` - Liquidity net
+/// * `zero_for_one` - Whether the pool is token0/token1 or token1/token0
+/// * `fee` - Fee
+///
+/// # Returns
+/// * `f64` - Amount of token0 out
+/// * `f64` - Amount of token1 out
+/// * `U256` - Sqrt price
+/// * `u128` - Liquidity
+/// * `i32` - Tick
 #[allow(unused_assignments)]
 fn swap(
     amount_in: f64,

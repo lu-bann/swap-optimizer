@@ -4,6 +4,17 @@ use ethers::providers::Middleware;
 use ethers::types::U256;
 use std::sync::Arc;
 
+/// Methods to get pool data given a [UniswapV2Pool](cfmms::pool::uniswap_v2::UniswapV2Pool) instance
+///
+/// # Arguments
+/// * `pool` - [UniswapV2Pool](cfmms::pool::uniswap_v2::UniswapV2Pool) instance
+/// * `provider` - [Middleware](ethers::providers::Middleware) instance
+///
+/// # Returns
+/// * `token0` - token0 reserve
+/// * `token1` - token1 reserve
+/// * `token0_decimals` - token0 decimals
+/// * `token1_decimals` - token1 decimals
 pub async fn get_pool_data<M>(pool: UniswapV2Pool, provider: Arc<M>) -> (u128, u128, u8, u8)
 where
     M: Middleware + 'static,
@@ -14,7 +25,15 @@ where
     (token0, token1, token0_decimals, token1_decimals)
 }
 
-/// takes either token 0 or 1 out, but not both
+/// Gets the token amount out given the token amount in
+/// # Arguments
+/// * `token_in` - token amount in
+/// * `token_out` - token amount out
+/// * `token_in_reserve` - token in reserve
+/// * `token_out_reserve` - token out reserve
+///
+/// # Returns
+/// * `token_out` - token amount out
 pub fn get_tokens_out_from_tokens_in(
     token0_in: Option<f64>,
     token1_in: Option<f64>,
@@ -55,6 +74,16 @@ pub fn get_tokens_out_from_tokens_in(
     }
 }
 
+/// Gets the token amount in given the token amount out
+///
+/// # Arguments
+/// * `token_in` - token amount in
+/// * `token_out` - token amount out
+/// * `token_in_reserve` - token in reserve
+/// * `token_out_reserve` - token out reserve
+///
+/// # Returns
+/// * `token_in` - token amount in
 pub fn get_tokens_in_from_tokens_out(
     token0_out: Option<f64>,
     token1_out: Option<f64>,

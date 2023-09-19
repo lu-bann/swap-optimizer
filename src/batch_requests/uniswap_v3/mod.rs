@@ -26,6 +26,11 @@ abigen!(
     "src/batch_requests/uniswap_v3/GetUniswapV3TickDataBatchRequest.json";
 );
 
+/// Get pool data for all pools in a batch
+///
+/// # Arguments
+/// * `pools` - Pools to get data for
+/// * `middleware` - [Ethers](https://docs.rs/ethers/0.2.0/ethers/middleware/trait.Middleware.html) middleware
 pub async fn get_pool_data_batch_request<M: Middleware>(
     pools: &mut [Pool],
     middleware: Arc<M>,
@@ -195,6 +200,7 @@ pub async fn get_v3_pool_data_batch_request<M: Middleware>(
     Ok(())
 }
 
+/// Uniswap V3 tick data
 #[derive(Debug)]
 pub struct UniswapV3TickData {
     pub initialized: bool,
@@ -202,6 +208,17 @@ pub struct UniswapV3TickData {
     pub liquidity_net: i128,
 }
 
+/// Get tick data given a pool's tick range
+///
+/// * `pool` - Pool to get data for
+/// * `tick_start` - Starting tick
+/// * `zero_for_one` - Direction of the trade
+/// * `num_ticks` - Number of ticks to get data for
+/// * `block_number` - Optional block number to get data for
+/// * `middleware` - [Ethers](https://docs.rs/ethers/0.2.0/ethers/middleware/trait.Middleware.html) middleware
+///
+/// # Returns
+/// * `Vec<UniswapV3TickData>` - Vector of tick data
 pub async fn get_uniswap_v3_tick_data_batch_request<M: Middleware>(
     pool: &UniswapV3Pool,
     tick_start: i32,
@@ -289,6 +306,11 @@ pub async fn get_uniswap_v3_tick_data_batch_request<M: Middleware>(
     Ok((tick_data, U64::from(block_number.as_u64())))
 }
 
+/// Syncing an array of Uniswap V3 pools
+///
+/// # Arguments
+/// * `pools` - Pools to sync
+/// * `middleware` - [Ethers](https://docs.rs/ethers/0.2.0/ethers/middleware/trait.Middleware.html) middleware
 pub async fn sync_v3_pool_batch_request<M: Middleware>(
     pool: &mut UniswapV3Pool,
     middleware: Arc<M>,

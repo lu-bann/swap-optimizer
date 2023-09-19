@@ -19,6 +19,17 @@ abigen!(
     "src/batch_requests/uniswap_v2/GetUniswapV2PoolDataBatchRequest.json";
 );
 
+/// Get pairs from a Uniswap V2 factory via a batch request
+/// This is used to get all the pairs from a factory
+///
+/// # Arguments
+/// * `factory` - The factory address
+/// * `from` - The starting block number
+/// * `step` - The step size for each request
+/// * `middleware` - The middleware
+///
+/// # Returns
+/// * `Vec<H160>` - The list of pairs
 pub async fn get_pairs_batch_request<M: Middleware>(
     factory: H160,
     from: U256,
@@ -56,6 +67,11 @@ pub async fn get_pairs_batch_request<M: Middleware>(
     Ok(pairs)
 }
 
+/// Gets the pool data from a list of pools via a batch request
+///
+/// # Arguments
+/// * `pools` - The list of pools
+/// * `middleware` - [Ethers Middleware](https://docs.rs/ethers/latest/ethers/providers/trait.Middleware.html)
 pub async fn get_pool_data_batch_request<M: Middleware>(
     pools: &mut [Pool],
     middleware: Arc<M>,
@@ -128,6 +144,10 @@ pub async fn get_pool_data_batch_request<M: Middleware>(
     Ok(())
 }
 
+/// Gets the Uniswap V2 pool data from a list of pools via a batch request
+/// # Arguments
+/// * `pools` - The list of pools
+/// * `middleware` - [Ethers Middleware](https://docs.rs/ethers/latest/ethers/providers/trait.Middleware.html)
 pub async fn get_v2_pool_data_batch_request<M: Middleware>(
     pool: &mut UniswapV2Pool,
     middleware: Arc<M>,

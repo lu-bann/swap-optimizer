@@ -11,6 +11,7 @@ use std::sync::Arc;
 pub type PoolVariant = dex::DexVariant;
 pub type PoolType = pool::Pool;
 
+/// Pool type that represents a UniswapV2 or UniswapV3 pool
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct Pool {
     pub address: Address,
@@ -87,7 +88,7 @@ impl Pool {
         }
     }
 
-    // Creates a new pool instance
+    /// Create a new Pool instance
     pub async fn new<M>(
         provider: Arc<M>,
         address: Address,
@@ -152,7 +153,7 @@ impl Pool {
         }
     }
 
-    // update single pool state
+    /// Sync a single Pool's  state
     pub async fn update_pool_state(&mut self, provider: Arc<Provider<Ws>>) {
         match self.pool_variant {
             PoolVariant::UniswapV2 => {

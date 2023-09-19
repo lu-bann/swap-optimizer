@@ -12,6 +12,97 @@ use ethers::types::{I256, U256};
 use pool::{Pool, PoolType};
 use std::sync::Arc;
 
+/// ArbPool is a struct that contains all the necessary data for optimal swap calculating
+///
+/// # Example
+/// ```
+///         // Initialize the V3 pool
+///        let v3_pool = Pool::new(
+///            client.clone(),
+///            "0x11b815efB8f581194ae79006d24E0d814B7697F6"
+///                .parse::<H160>()
+///                .unwrap(),
+///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+///                .parse::<H160>()
+///                .unwrap(),
+///            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+///                .parse::<H160>()
+///                .unwrap(),
+///            U256::from(50),
+///            PoolVariant::UniswapV3,
+///        )
+///        .await
+///
+///
+///        // Initialize the V2 pool
+///        let v2_pool = Pool::new(
+///            client.clone(),
+///            "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852"
+///                .parse::<H160>()
+///                .unwrap(),
+///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+///                .parse::<H160>()
+///                .unwrap(),
+///            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
+///                .parse::<H160>()
+///                .unwrap(),
+///            U256::from(30),
+///            PoolVariant::UniswapV2,
+///        )
+///        .await
+///
+///        // verify the V3 pool type
+///        let uni_v3_pool = match v3_pool.pool_type {
+///            PoolType::UniswapV3(pool) => pool,
+///            _ => panic!("Wrong pool type"),
+///        };
+///
+///        let temp_v2_pool = V2_POOL::new(
+///            "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852".parse::<H160>()?,
+///            client.clone(),
+///        );
+///        let v2_reserve = temp_v2_pool.get_reserves().call().await?;
+///
+///        // Verify the V2 pool type
+///        let uni_v2_pool = match v2_pool.pool_type {
+///            PoolType::UniswapV2(pool) => pool,
+///            _ => panic!("Wrong pool type"),
+///        };
+///
+///        // Calculate the V3 amount out
+///        let v3_amount_out = uni_v3_pool
+///            .simulate_swap(
+///                "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+///                    .parse::<H160>()
+///                    .unwrap(),
+///                U256::from(parse_units("5.0", "ether").unwrap()),
+///                client.clone(),
+///            )
+///            .await
+///
+///        // Calculate the V2 amount out
+///        let v2_amount_out = uni_v2_pool.simulate_swap(
+///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+///                .parse::<H160>()
+///                .unwrap(),
+///            U256::from(parse_units("5.0", "ether").unwrap()),
+///        );
+///
+///        let borrow_pool: Pool;
+///        let repay_pool: Pool;
+///        if v3_amount_out > v2_amount_out {
+///            borrow_pool = v3_pool;
+///            repay_pool = v2_pool;
+///            log::info!("Borrowing from V3");
+///        } else {
+///            borrow_pool = v2_pool;
+///            repay_pool = v3_pool;
+///            log::info!("Borrowing from V2");
+///        }
+///
+///        let (amt, _) =
+///            ArbPool::calc_optimal_arb(client.clone(), &borrow_pool, &repay_pool, true).await;
+/// ```
 #[derive(Debug)]
 struct ArbPool {
     token0_decimals: u8,
@@ -38,7 +129,31 @@ struct ArbPool {
 }
 
 impl ArbPool {
-    #[allow(dead_code)]
+    /// Constructs a new `ArbPool`
+    ///
+    /// # Arguments
+    /// * `token0_decimals` - token0 decimals
+    /// * `token1_decimals` - token1 decimals
+    /// * `borrowing_pool_reserve_0` - borrowing pool reserve 0
+    /// * `borrowing_pool_reserve_1` - borrowing pool reserve 1
+    /// * `repay_pool_reserve_0` - repay pool reserve 0
+    /// * `repay_pool_reserve_1` - repay pool reserve 1
+    /// * `borrowing_pool_type` - borrowing pool type
+    /// * `repay_pool_type` - repay pool type
+    /// * `borrow_0_buy_1` - borrow token 0 and buy token 1 or borrow token 1 and buy token 0
+    /// * `borrowing_pool_fee` - borrowing pool fee (V3 only)
+    /// * `borrowing_pool_liquidity` - borrowing pool liquidity (V3 only)
+    /// * `borrowing_pool_sqrt_price` - borrowing pool sqrt price (V3 only)
+    /// * `borrowing_pool_tick` - borrowing pool tick (V3 only)
+    /// * `borrowing_pool_tick_data` - borrowing pool tick data (V3 only)
+    /// * `borrowing_pool_liquidity_net` - borrowing pool liquidity net (V3 only)
+    /// * `repay_pool_fee` - repay pool fee (V3 only)
+    /// * `repay_pool_liquidity` - repay pool liquidity (V3 only)
+    /// * `repay_pool_sqrt_price` - repay pool sqrt price (V3 only)
+    /// * `repay_pool_tick` - repay pool tick (V3 only)
+    /// * `repay_pool_tick_data` - repay pool tick data (V3 only)
+    /// * `repay_pool_liquidity_net` - repay pool liquidity net (V3 only)
+    #[allow(dead_code, clippy::too_many_arguments)]
     fn new(
         token0_decimals: u8,
         token1_decimals: u8,
@@ -62,7 +177,6 @@ impl ArbPool {
         repay_pool_tick_data: Option<Vec<UniswapV3TickData>>, // V3 only
         repay_pool_liquidity_net: Option<i128>,  // V3 only
     ) -> Self {
-        #[allow(clippy::too_many_arguments)]
         Self {
             token0_decimals,
             token1_decimals,
@@ -88,7 +202,17 @@ impl ArbPool {
         }
     }
 
-    /// Called by arb function to calculate the optimal trade size
+    /// Calculate the optimal swap amount
+    ///
+    /// # Arguments
+    /// * `provider` - a [ethers provider](https://docs.rs/ethers/0.2.0-alpha.6/ethers/providers/index.html)
+    /// * `borrowing_pool` - borrowing pool
+    /// * `repay_pool` - repay pool
+    /// * `borrow_0_buy_1` - borrow token 0 and buy token 1 or borrow token 1 and buy token 0
+    ///
+    /// # Returns
+    /// * `f64` - optimal swap amount
+    /// * `f64` - [the best cost function value](https://argmin-rs.github.io/argmin/argmin/core/struct.LinearProgramState.html#structfield.best_cost)
     #[allow(dead_code)]
     pub async fn calc_optimal_arb<M>(
         provider: Arc<M>,
@@ -258,6 +382,7 @@ impl CostFunction for ArbPool {
     type Param = f64;
     type Output = f64;
 
+    /// [cost function] implementation for the [argmin::core::CostFunction] trait
     fn cost(&self, p: &Self::Param) -> Result<Self::Output, Error> {
         Ok(maximize_arb_profit(
             &p,
@@ -286,6 +411,7 @@ impl CostFunction for ArbPool {
     }
 }
 
+/// The arb profit maximization function called by the [argmin::core::CostFunction::cost](https://argmin-rs.github.io/argmin/argmin/core/trait.CostFunction.html#tymethod.cost) function
 fn maximize_arb_profit(
     borrow_amt: &f64,
     token0_decimals: &u8,
