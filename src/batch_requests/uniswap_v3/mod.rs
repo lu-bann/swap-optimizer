@@ -31,6 +31,7 @@ abigen!(
 /// # Arguments
 /// * `pools` - Pools to get data for
 /// * `middleware` - [Ethers](https://docs.rs/ethers/0.2.0/ethers/middleware/trait.Middleware.html) middleware
+#[allow(clippy::single_match)]
 pub async fn get_pool_data_batch_request<M: Middleware>(
     pools: &mut [Pool],
     middleware: Arc<M>,
@@ -270,7 +271,7 @@ pub async fn get_uniswap_v3_tick_data_batch_request<M: Middleware>(
                 .into_bool()
                 .expect("Could not convert token to bool");
 
-            if initialized == false {
+            if !initialized {
                 continue;
             };
 

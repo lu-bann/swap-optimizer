@@ -153,6 +153,7 @@ where
 ///
 /// # Returns
 /// * `f64` - Amount of out
+#[allow(clippy::too_many_arguments, clippy::needless_return)]
 pub fn get_tokens_in_from_tokens_out(
     token0_out: Option<f64>,
     token1_out: Option<f64>,
@@ -160,13 +161,13 @@ pub fn get_tokens_in_from_tokens_out(
     sqrt_price: &U256,
     liquidity: &u128,
     liquidity_net: i128,
-    tick_data: &Vec<UniswapV3TickData>,
+    tick_data: &[UniswapV3TickData],
     fee: &u32,
-) -> Result<f64, UniswapV3MathError> {
+) -> anyhow::Result<f64> {
     match token0_out {
         Some(val) => {
             if token1_out.is_some() {
-                return Err("Cannot take two tokens").unwrap();
+                return Err(anyhow::anyhow!("Cannot take two tokens"));
             };
             if let Ok((amt_0, _, _, _, _)) = swap(
                 -val,
@@ -178,9 +179,9 @@ pub fn get_tokens_in_from_tokens_out(
                 &false,
                 fee,
             ) {
-                return Ok(amt_0);
+                Ok(amt_0)
             } else {
-                return Err(UniswapV3MathError::SwapSimulationError);
+                return Err(UniswapV3MathError::SwapSimulationError.into());
             }
         }
         None => match token1_out {
@@ -195,12 +196,12 @@ pub fn get_tokens_in_from_tokens_out(
                     &true,
                     fee,
                 ) {
-                    return Ok(amt_1);
+                    Ok(amt_1)
                 } else {
-                    return Err(UniswapV3MathError::SwapSimulationError);
+                    return Err(UniswapV3MathError::SwapSimulationError.into());
                 }
             }
-            None => Err("At least one token needs to be provided").unwrap(),
+            None => Err(anyhow::anyhow!("At least one token needs to be provided")),
         },
     }
 }
@@ -221,6 +222,7 @@ pub fn get_tokens_in_from_tokens_out(
 ///
 /// # Returns
 /// * `f64` - Amount of out
+#[allow(clippy::too_many_arguments, clippy::needless_return)]
 pub fn get_tokens_out_from_tokens_in(
     token0_in: Option<f64>,
     token1_in: Option<f64>,
@@ -228,13 +230,13 @@ pub fn get_tokens_out_from_tokens_in(
     sqrt_price: &U256,
     liquidity: &u128,
     liquidity_net: i128,
-    tick_data: &Vec<UniswapV3TickData>,
+    tick_data: &[UniswapV3TickData],
     fee: &u32,
-) -> Result<f64, UniswapV3MathError> {
+) -> anyhow::Result<f64> {
     match token0_in {
         Some(val) => {
             if token1_in.is_some() {
-                return Err("Cannot take two tokens").unwrap();
+                return Err(anyhow::anyhow!("Cannot take two tokens"));
             };
             if let Ok((_, amt1, _, _, _)) = swap(
                 val,
@@ -246,9 +248,9 @@ pub fn get_tokens_out_from_tokens_in(
                 &true,
                 fee,
             ) {
-                return Ok(amt1);
+                Ok(amt1)
             } else {
-                return Err(UniswapV3MathError::SwapSimulationError);
+                return Err(UniswapV3MathError::SwapSimulationError.into());
             }
         }
         None => match token1_in {
@@ -263,12 +265,12 @@ pub fn get_tokens_out_from_tokens_in(
                     &false,
                     fee,
                 ) {
-                    return Ok(amt0);
+                    Ok(amt0)
                 } else {
-                    return Err(UniswapV3MathError::SwapSimulationError);
+                    return Err(UniswapV3MathError::SwapSimulationError.into());
                 }
             }
-            None => Err("At least one token needs to be provided").unwrap(),
+            None => Err(anyhow::anyhow!("At least one token needs to be provided")),
         },
     }
 }
@@ -293,12 +295,13 @@ pub fn get_tokens_out_from_tokens_in(
 /// * `u128` - Liquidity
 /// * `i32` - Tick
 #[allow(unused_assignments)]
+#[allow(clippy::too_many_arguments, clippy::needless_return)]
 fn swap(
     amount_in: f64,
     tick: &i32,
     sqrt_price_x96: &U256,
     liquidity: &u128,
-    tick_data: &Vec<UniswapV3TickData>,
+    tick_data: &[UniswapV3TickData],
     mut liquidity_net: i128,
     zero_for_one: &bool,
     fee: &u32,
@@ -319,7 +322,7 @@ fn swap(
         MAX_SQRT_RATIO - 1
     };
 
-    let exact_input = amount_in > 0.0 as f64;
+    let exact_input = amount_in > 0.0_f64;
 
     while state.amount_specified_remaining != I256::zero()
         && state.sqrt_price_x96 != sqrt_price_limit_x96

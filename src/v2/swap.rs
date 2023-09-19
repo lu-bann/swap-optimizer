@@ -34,6 +34,7 @@ where
 ///
 /// # Returns
 /// * `token_out` - token amount out
+#[allow(clippy::op_ref)]
 pub fn get_tokens_out_from_tokens_in(
     token0_in: Option<f64>,
     token1_in: Option<f64>,
@@ -43,11 +44,11 @@ pub fn get_tokens_out_from_tokens_in(
     match token0_in {
         Some(val) => {
             if token1_in.is_some() {
-                return Err("Cannot take two tokens").unwrap();
+                return Err(anyhow::anyhow!("Cannot take two tokens"));
             };
 
             if val == 0.0 {
-                return Err("token0_in is zero").unwrap();
+                return Err(anyhow::anyhow!("token0_in is zero"));
             };
 
             let amount_in_with_fee = val * (u256_2_f64(U256::from(997)));
@@ -59,7 +60,7 @@ pub fn get_tokens_out_from_tokens_in(
         None => match token1_in {
             Some(val) => {
                 if val == 0.0 {
-                    return Err("token1_in is zero").unwrap();
+                    return Err(anyhow::anyhow!("token1_in is zero"));
                 };
 
                 let amount_in_with_fee = val * (u256_2_f64(U256::from(997)));
@@ -69,7 +70,7 @@ pub fn get_tokens_out_from_tokens_in(
                 let result = numberator / denominator;
                 Ok(result)
             }
-            None => Err("At least one token needs to be provided").unwrap(),
+            None => panic!("{:?}", "At least one token needs to be provided"),
         },
     }
 }
@@ -84,6 +85,7 @@ pub fn get_tokens_out_from_tokens_in(
 ///
 /// # Returns
 /// * `token_in` - token amount in
+#[allow(clippy::op_ref)]
 pub fn get_tokens_in_from_tokens_out(
     token0_out: Option<f64>,
     token1_out: Option<f64>,
@@ -93,11 +95,11 @@ pub fn get_tokens_in_from_tokens_out(
     match token0_out {
         Some(val) => {
             if token1_out.is_some() {
-                return Err("Cannot take two tokens").unwrap();
+                return Err(anyhow::anyhow!("Cannot take two tokens"));
             };
 
             if val == 0.0 {
-                return Err("token0_out is zero").unwrap();
+                return Err(anyhow::anyhow!("token0_out is zero"));
             };
 
             let numerator = token1_reserve * u256_2_f64(U256::from(1000)) * val;
@@ -110,7 +112,7 @@ pub fn get_tokens_in_from_tokens_out(
         None => match token1_out {
             Some(val) => {
                 if val == 0.0 {
-                    return Err("token1_out is zero").unwrap();
+                    return Err(anyhow::anyhow!("token1_out is zero"));
                 };
 
                 let numerator = token0_reserve * u256_2_f64(U256::from(1000)) * val;
@@ -119,7 +121,7 @@ pub fn get_tokens_in_from_tokens_out(
 
                 Ok(result)
             }
-            None => Err("At least one token needs to be provided").unwrap(),
+            None => Err(anyhow::anyhow!("At least one token needs to be provided")),
         },
     }
 }

@@ -13,96 +13,6 @@ use pool::{Pool, PoolType};
 use std::sync::Arc;
 
 /// ArbPool is a struct that contains all the necessary data for optimal swap calculating
-///
-/// # Example
-/// ```
-///         // Initialize the V3 pool
-///        let v3_pool = Pool::new(
-///            client.clone(),
-///            "0x11b815efB8f581194ae79006d24E0d814B7697F6"
-///                .parse::<H160>()
-///                .unwrap(),
-///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-///                .parse::<H160>()
-///                .unwrap(),
-///            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-///                .parse::<H160>()
-///                .unwrap(),
-///            U256::from(50),
-///            PoolVariant::UniswapV3,
-///        )
-///        .await
-///
-///
-///        // Initialize the V2 pool
-///        let v2_pool = Pool::new(
-///            client.clone(),
-///            "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852"
-///                .parse::<H160>()
-///                .unwrap(),
-///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-///                .parse::<H160>()
-///                .unwrap(),
-///            "0xdAC17F958D2ee523a2206206994597C13D831ec7"
-///                .parse::<H160>()
-///                .unwrap(),
-///            U256::from(30),
-///            PoolVariant::UniswapV2,
-///        )
-///        .await
-///
-///        // verify the V3 pool type
-///        let uni_v3_pool = match v3_pool.pool_type {
-///            PoolType::UniswapV3(pool) => pool,
-///            _ => panic!("Wrong pool type"),
-///        };
-///
-///        let temp_v2_pool = V2_POOL::new(
-///            "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852".parse::<H160>()?,
-///            client.clone(),
-///        );
-///        let v2_reserve = temp_v2_pool.get_reserves().call().await?;
-///
-///        // Verify the V2 pool type
-///        let uni_v2_pool = match v2_pool.pool_type {
-///            PoolType::UniswapV2(pool) => pool,
-///            _ => panic!("Wrong pool type"),
-///        };
-///
-///        // Calculate the V3 amount out
-///        let v3_amount_out = uni_v3_pool
-///            .simulate_swap(
-///                "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-///                    .parse::<H160>()
-///                    .unwrap(),
-///                U256::from(parse_units("5.0", "ether").unwrap()),
-///                client.clone(),
-///            )
-///            .await
-///
-///        // Calculate the V2 amount out
-///        let v2_amount_out = uni_v2_pool.simulate_swap(
-///            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-///                .parse::<H160>()
-///                .unwrap(),
-///            U256::from(parse_units("5.0", "ether").unwrap()),
-///        );
-///
-///        let borrow_pool: Pool;
-///        let repay_pool: Pool;
-///        if v3_amount_out > v2_amount_out {
-///            borrow_pool = v3_pool;
-///            repay_pool = v2_pool;
-///            log::info!("Borrowing from V3");
-///        } else {
-///            borrow_pool = v2_pool;
-///            repay_pool = v3_pool;
-///            log::info!("Borrowing from V2");
-///        }
-///
-///        let (amt, _) =
-///            ArbPool::calc_optimal_arb(client.clone(), &borrow_pool, &repay_pool, true).await;
-/// ```
 #[derive(Debug)]
 struct ArbPool {
     token0_decimals: u8,
@@ -153,7 +63,7 @@ impl ArbPool {
     /// * `repay_pool_tick` - repay pool tick (V3 only)
     /// * `repay_pool_tick_data` - repay pool tick data (V3 only)
     /// * `repay_pool_liquidity_net` - repay pool liquidity net (V3 only)
-    #[allow(dead_code, clippy::too_many_arguments)]
+    #[allow(clippy::too_many_arguments)]
     fn new(
         token0_decimals: u8,
         token1_decimals: u8,
@@ -346,22 +256,22 @@ impl ArbPool {
                 match borrowing_pool.pool_type {
                     PoolType::UniswapV3(_) => {
                         init_param = cost.repay_pool_reserve_0 * 0.025;
-                        _solver = BrentOpt::new(1 as f64, cost.repay_pool_reserve_0);
+                        _solver = BrentOpt::new(1_f64, cost.repay_pool_reserve_0);
                     }
                     PoolType::UniswapV2(_) => {
                         init_param = cost.borrowing_pool_reserve_0 * 0.025;
-                        _solver = BrentOpt::new(1 as f64, cost.borrowing_pool_reserve_0);
+                        _solver = BrentOpt::new(1_f64, cost.borrowing_pool_reserve_0);
                     }
                 };
             }
             false => match borrowing_pool.pool_type {
                 PoolType::UniswapV3(_) => {
                     init_param = cost.repay_pool_reserve_1 * 0.025;
-                    _solver = BrentOpt::new(1 as f64, cost.repay_pool_reserve_1);
+                    _solver = BrentOpt::new(1_f64, cost.repay_pool_reserve_1);
                 }
                 PoolType::UniswapV2(_) => {
                     init_param = cost.borrowing_pool_reserve_1 * 0.025;
-                    _solver = BrentOpt::new(1 as f64, cost.borrowing_pool_reserve_1);
+                    _solver = BrentOpt::new(1_f64, cost.borrowing_pool_reserve_1);
                 }
             },
         }
@@ -385,7 +295,7 @@ impl CostFunction for ArbPool {
     /// [cost function] implementation for the [argmin::core::CostFunction] trait
     fn cost(&self, p: &Self::Param) -> Result<Self::Output, Error> {
         Ok(maximize_arb_profit(
-            &p,
+            p,
             &self.token0_decimals,
             &self.token1_decimals,
             &self.borrowing_pool_reserve_0,
@@ -412,6 +322,7 @@ impl CostFunction for ArbPool {
 }
 
 /// The arb profit maximization function called by the [argmin::core::CostFunction::cost](https://argmin-rs.github.io/argmin/argmin/core/trait.CostFunction.html#tymethod.cost) function
+#[allow(clippy::needless_return, clippy::too_many_arguments)]
 fn maximize_arb_profit(
     borrow_amt: &f64,
     token0_decimals: &u8,
@@ -545,7 +456,7 @@ fn maximize_arb_profit(
         },
     };
 
-    return -(_debt + _repay);
+    -(_debt + _repay)
 }
 
 #[allow(dead_code)]
@@ -637,6 +548,7 @@ mod test {
                 .ok_or(anyhow::anyhow!("Error connecting to anvil instance"))?,
         );
         log::info!("Connected to anvil instance at {}", url);
+        log::info!("This will take a little while...");
 
         Ok((provider, anvil))
     }
@@ -668,7 +580,6 @@ mod test {
         );
 
         let value: U256 = U256::from(parse_units("500.0", "ether").unwrap());
-        let _address = client.address();
 
         let _ = weth_instance.deposit().value(value).send().await?.await?;
 
@@ -706,6 +617,7 @@ mod test {
         )
         .await
         .unwrap();
+
         let v2_pool = Pool::new(
             client.clone(),
             "0x0d4a11d5EEaaC28EC3F61d100daF4d40471f1852"
@@ -762,12 +674,10 @@ mod test {
         if v3_amount_out > v2_amount_out {
             borrow_pool = v3_pool;
             repay_pool = v2_pool;
-            log::info!("Borrowing from V3");
         } else {
             borrow_pool = v2_pool;
             repay_pool = v3_pool;
-            log::info!("Borrowing from V2");
-        }
+        };
 
         let (amt, _) =
             ArbPool::calc_optimal_arb(client.clone(), &borrow_pool, &repay_pool, true).await;

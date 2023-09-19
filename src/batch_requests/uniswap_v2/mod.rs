@@ -72,6 +72,7 @@ pub async fn get_pairs_batch_request<M: Middleware>(
 /// # Arguments
 /// * `pools` - The list of pools
 /// * `middleware` - [Ethers Middleware](https://docs.rs/ethers/latest/ethers/providers/trait.Middleware.html)
+#[allow(clippy::single_match)]
 pub async fn get_pool_data_batch_request<M: Middleware>(
     pools: &mut [Pool],
     middleware: Arc<M>,

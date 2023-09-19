@@ -50,7 +50,8 @@ impl Pool {
         };
         match pool_variant {
             PoolVariant::UniswapV2 => {
-                let res = Pool {
+                
+                Pool {
                     address,
                     token_0,
                     token_1,
@@ -59,11 +60,11 @@ impl Pool {
                     pool_type: PoolType::UniswapV2(UniswapV2Pool::new(
                         address, token_0, 0, token_1, 0, 0, 0, 300,
                     )),
-                };
-                res
+                }
             }
             PoolVariant::UniswapV3 => {
-                let res = Pool {
+                
+                Pool {
                     address,
                     token_0,
                     token_1,
@@ -82,8 +83,7 @@ impl Pool {
                         0,
                         0,
                     )),
-                };
-                res
+                }
             }
         }
     }
