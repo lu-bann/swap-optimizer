@@ -1,4 +1,4 @@
-use crate::u256_2_f64;
+use crate::arb_pool::u256_2_f64;
 use cfmms::pool::uniswap_v2::UniswapV2Pool;
 use ethers::providers::Middleware;
 use ethers::types::U256;

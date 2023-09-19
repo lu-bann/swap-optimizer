@@ -49,7 +49,7 @@ pub struct Tick {
     pub initialized: bool,
 }
 
-/// Calls the [batch request](batch_requests::uniswap_v3::get_uniswap_v3_tick_data_batch_request) to get tick data for a Uniswap V3 pool
+/// Calls the [batch request](batch_requests::uniswap_v3::get_uniswap_v3_tick_data_batch_request()) to get pool data for a Uniswap V3 pool
 ///
 /// # Arguments
 /// * `uniswapv3_pool` - A Uniswap V3 pool
@@ -296,7 +296,7 @@ pub fn get_tokens_out_from_tokens_in(
 /// * `i32` - Tick
 #[allow(unused_assignments)]
 #[allow(clippy::too_many_arguments, clippy::needless_return)]
-fn swap(
+pub fn swap(
     amount_in: f64,
     tick: &i32,
     sqrt_price_x96: &U256,
@@ -475,7 +475,7 @@ fn swap(
 mod test {
 
     use super::*;
-    use crate::f64_2_u256;
+    use crate::arb_pool::f64_2_u256;
     use crate::v3::swap::{get_pool_data, get_tokens_out_from_tokens_in};
     use dotenv::dotenv;
     use ethers::{
