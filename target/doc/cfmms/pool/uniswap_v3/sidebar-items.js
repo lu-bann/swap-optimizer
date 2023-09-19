@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["MAX_SQRT_RATIO","MIN_SQRT_RATIO","Q128","Q224","SWAP_EVENT_SIGNATURE","U256_TWO"],"struct":["CurrentState","StepComputations","Tick","UniswapV3Pool"]};

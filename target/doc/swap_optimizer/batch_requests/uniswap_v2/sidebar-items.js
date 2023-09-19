@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_pairs_batch_request","get_pool_data_batch_request","get_v2_pool_data_batch_request"],"mod":["get_uniswap_v2_pairs_batch_request","get_uniswap_v2_pool_data_batch_request"]};

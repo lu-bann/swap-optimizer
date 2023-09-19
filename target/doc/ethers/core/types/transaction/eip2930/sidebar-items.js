@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Eip2930RequestError"],"struct":["AccessList","AccessListItem","AccessListWithGasUsed","Eip2930TransactionRequest"]};

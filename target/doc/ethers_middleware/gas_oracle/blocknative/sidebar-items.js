@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["BaseFeeEstimate","BlockNative","BlockPrice","GasEstimate","Response"]};

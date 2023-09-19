@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["beta"],"struct":["ConjugateGradient","NonlinearConjugateGradient"]};

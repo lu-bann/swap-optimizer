@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["FletcherReeves","HestenesStiefel","PolakRibiere","PolakRibierePlus"],"trait":["NLCGBetaUpdate"]};

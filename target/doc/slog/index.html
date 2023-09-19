@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Slog -  Structured, extensible, composable logging for Rust"><title>slog - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-9bb858ba049f1f21.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="slog" data-themes="" data-resource-suffix="" data-rustdoc-version="1.72.0 (5680fa18f 2023-08-23)" data-channel="1.72.0" data-search-js="search-f6292fe389d70017.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ><script src="../static.files/storage-59fd9b8ccb335783.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../slog/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../slog/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Crate slog</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 2.7.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#statics">Statics</a></li><li><a href="#traits">Traits</a></li><li><a href="#types">Type Definitions</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">slog</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/slog/lib.rs.html#1-3748">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="slog----structured-extensible-composable-logging-for-rust"><a href="#slog----structured-extensible-composable-logging-for-rust">Slog -  Structured, extensible, composable logging for Rust</a></h2>
+<p><code>slog-rs</code> is an ecosystem of reusable components for structured, extensible,
+composable logging for Rust.</p>
+<p><code>slog</code> is <code>slog-rs</code>’s main crate providing core components shared between
+all other parts of <code>slog-rs</code> ecosystem.</p>
+<p>This is auto-generated technical documentation of <code>slog</code>. For information
+about project organization, development, help, etc. please see
+<a href="https://github.com/slog-rs/slog">slog github page</a></p>
+<h3 id="core-advantages-over-log-crate"><a href="#core-advantages-over-log-crate">Core advantages over <code>log</code> crate</a></h3>
+<ul>
+<li><strong>extensible</strong> - <code>slog</code> crate provides core functionality: a very basic
+and portable standard feature-set based on open <code>trait</code>s. This allows
+implementing new features that can be independently published.</li>
+<li><strong>composable</strong> - <code>trait</code>s that <code>slog</code> exposes to provide extensibility
+are designed to be easy to efficiently reuse and combine. By combining
+different functionalities, each application can specify precisely when,
+where, and how to process logging data from an application and its
+dependencies.</li>
+<li><strong>flexible</strong> - <code>slog</code> does not constrain logging to just one globally
+registered backend. Parts of your application can handle logging
+in a customized way, or completely independently.</li>
+<li><strong>structured</strong> and both <strong>human and machine readable</strong> - By using the
+key-value data format and retaining its type information, the meaning of logging
+data is preserved.  Data can be serialized to machine readable formats like
+JSON and sent to data-mining systems for further analysis, etc. On the
+other hand, when presenting on screen, logging information can be presented
+in aesthetically pleasing and easy to understand ways.</li>
+<li><strong>contextual</strong> - <code>slog</code>’s <code>Logger</code> objects carry set of key-value data
+pairs that contain the context of logging - information that otherwise
+would have to be repeated in every logging statement.</li>
+</ul>
+<h3 id="slog-features"><a href="#slog-features"><code>slog</code> features</a></h3>
+<ul>
+<li>performance oriented; read <a href="https://github.com/slog-rs/slog/wiki/What-makes-slog-fast">what makes slog
+fast</a> and see:
+<a href="https://github.com/dpc/slog-rs/wiki/Bench-log">slog bench log</a>
+<ul>
+<li>lazily evaluation through closure values</li>
+<li>async IO support included: see <a href="https://docs.rs/slog-async"><code>slog-async</code>
+crate</a></li>
+</ul>
+</li>
+<li><code>#![no_std]</code> support (with opt-out <code>std</code> cargo feature flag)</li>
+<li>support for named format arguments (e.g. <code>info!(logger, &quot;printed {line_count} lines&quot;, line_count = 2);</code>)
+for easy bridging between the human readable and machine-readable outputs</li>
+<li>tree-structured loggers</li>
+<li>modular, lightweight and very extensible
+<ul>
+<li>tiny core crate that does not pull any dependencies</li>
+<li>feature-crates for specific functionality</li>
+<li>using <code>slog</code> in library does not force users of the library to use slog
+(but provides additional functionality); see <a href="https://github.com/slog-rs/example-lib">example how to use
+<code>slog</code> in library</a></li>
+</ul>
+</li>
+<li>backwards and forwards compatibility with <code>log</code> crate:
+see <a href="https://docs.rs/slog-stdlog"><code>slog-stdlog</code> crate</a></li>
+<li>convenience crates:
+<ul>
+<li>logging-scopes for implicit <code>Logger</code> passing: see
+<a href="https://docs.rs/slog-scope">slog-scope crate</a></li>
+</ul>
+</li>
+<li>many existing core &amp; community provided features:
+<ul>
+<li>multiple outputs</li>
+<li>filtering control
+<ul>
+<li>compile-time log level filter using cargo features (same as in <code>log</code>
+crate)</li>
+<li>by level, msg, and any other meta-data</li>
+<li><a href="https://github.com/slog-rs/envlogger"><code>slog-envlogger</code></a> - port of
+<code>env_logger</code></li>
+<li>terminal output, with color support: see <a href="https://docs.rs/slog-term"><code>slog-term</code>
+crate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://docs.rs/slog-json">json</a>
+<ul>
+<li><a href="https://docs.rs/slog-bunyan">bunyan</a></li>
+</ul>
+</li>
+<li><a href="https://docs.rs/slog-syslog">syslog</a>
+and <a href="https://docs.rs/slog-journald">journald</a> support</li>
+<li>run-time configuration:
+<ul>
+<li>run-time behavior change;
+see <a href="https://docs.rs/slog-atomic">slog-atomic</a></li>
+<li>run-time configuration; see
+<a href="https://docs.rs/slog-config">slog-config crate</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="notable-details"><a href="#notable-details">Notable details</a></h3>
+<p><strong>Note:</strong> At compile time <code>slog</code> by default removes trace and debug level
+statements in release builds, and trace level records in debug builds. This
+makes <code>trace</code> and <code>debug</code> level logging records practically free, which
+should encourage using them freely. If you want to enable trace/debug
+messages or raise the compile time logging level limit, use the following in
+your <code>Cargo.toml</code>:</p>
+<div class="example-wrap"><pre class="language-norust"><code>slog = { version = ... ,
+         features = [&quot;max_level_trace&quot;, &quot;release_max_level_warn&quot;] }
+</code></pre></div>
+<p>Root drain (passed to <code>Logger::root</code>) must be one that does not ever return
+errors. This forces user to pick error handing strategy.
+<code>Drain::fuse()</code> or <code>Drain::ignore_res()</code>.</p>
+<h3 id="where-to-start"><a href="#where-to-start">Where to start</a></h3>
+<p><a href="trait.Drain.html"><code>Drain</code></a>, <a href="struct.Logger.html"><code>Logger</code></a> and
+<a href="macro.log.html"><code>log</code> macro</a> are the most important elements of
+slog. Make sure to read their respective documentation</p>
+<p>Typically the biggest problem is creating a <code>Drain</code></p>
+<h4 id="logging-to-the-terminal"><a href="#logging-to-the-terminal">Logging to the terminal</a></h4>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[macro_use]
+</span><span class="kw">extern crate </span>slog;
+<span class="kw">extern crate </span>slog_term;
+<span class="kw">extern crate </span>slog_async;
+
+<span class="kw">use </span>slog::Drain;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>decorator = slog_term::TermDecorator::new().build();
+    <span class="kw">let </span>drain = slog_term::FullFormat::new(decorator).build().fuse();
+    <span class="kw">let </span>drain = slog_async::Async::new(drain).build().fuse();
+
+    <span class="kw">let </span>_log = slog::Logger::root(drain, <span class="macro">o!</span>());
+}</code></pre></div>
+<h4 id="logging-to-a-file"><a href="#logging-to-a-file">Logging to a file</a></h4>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[macro_use]
+</span><span class="kw">extern crate </span>slog;
+<span class="kw">extern crate </span>slog_term;
+<span class="kw">extern crate </span>slog_async;
+
+<span class="kw">use </span>std::fs::OpenOptions;
+<span class="kw">use </span>slog::Drain;
+
+<span class="kw">fn </span>main() {
+   <span class="kw">let </span>log_path = <span class="string">&quot;target/your_log_file_path.log&quot;</span>;
+   <span class="kw">let </span>file = OpenOptions::new()
+      .create(<span class="bool-val">true</span>)
+      .write(<span class="bool-val">true</span>)
+      .truncate(<span class="bool-val">true</span>)
+      .open(log_path)
+      .unwrap();
+
+    <span class="kw">let </span>decorator = slog_term::PlainDecorator::new(file);
+    <span class="kw">let </span>drain = slog_term::FullFormat::new(decorator).build().fuse();
+    <span class="kw">let </span>drain = slog_async::Async::new(drain).build().fuse();
+
+    <span class="kw">let </span>_log = slog::Logger::root(drain, <span class="macro">o!</span>());
+}</code></pre></div>
+<p>You can consider using <code>slog-json</code> instead of <code>slog-term</code>.
+<code>slog-term</code> only coincidently fits the role of a file output format. A
+proper <code>slog-file</code> crate with suitable format, log file rotation and other
+file-logging related features would be awesome. Contributions are welcome!</p>
+<h4 id="change-logging-level-at-runtime"><a href="#change-logging-level-at-runtime">Change logging level at runtime</a></h4>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[macro_use]
+</span><span class="kw">extern crate </span>slog;
+<span class="kw">extern crate </span>slog_term;
+<span class="kw">extern crate </span>slog_async;
+
+<span class="kw">use </span>slog::Drain;
+
+<span class="kw">use </span>std::sync::{Arc, atomic};
+<span class="kw">use </span>std::sync::atomic::Ordering;
+<span class="kw">use </span>std::result;
+
+<span class="doccomment">/// Custom Drain logic
+</span><span class="kw">struct </span>RuntimeLevelFilter&lt;D&gt;{
+   drain: D,
+   on: Arc&lt;atomic::AtomicBool&gt;,
+}
+
+<span class="kw">impl</span>&lt;D&gt; Drain <span class="kw">for </span>RuntimeLevelFilter&lt;D&gt;
+    <span class="kw">where </span>D : Drain {
+    <span class="kw">type </span><span class="prelude-val">Ok </span>= <span class="prelude-ty">Option</span>&lt;D::Ok&gt;;
+    <span class="kw">type </span><span class="prelude-val">Err </span>= <span class="prelude-ty">Option</span>&lt;D::Err&gt;;
+
+    <span class="kw">fn </span>log(<span class="kw-2">&amp;</span><span class="self">self</span>,
+          record: <span class="kw-2">&amp;</span>slog::Record,
+          values: <span class="kw-2">&amp;</span>slog::OwnedKVList)
+          -&gt; result::Result&lt;<span class="self">Self</span>::Ok, <span class="self">Self</span>::Err&gt; {
+          <span class="kw">let </span>current_level = <span class="kw">if </span><span class="self">self</span>.on.load(Ordering::Relaxed) {
+              slog::Level::Trace
+          } <span class="kw">else </span>{
+              slog::Level::Info
+          };
+
+          <span class="kw">if </span>record.level().is_at_least(current_level) {
+              <span class="self">self</span>.drain.log(
+                  record,
+                  values
+              )
+              .map(<span class="prelude-val">Some</span>)
+              .map_err(<span class="prelude-val">Some</span>)
+          } <span class="kw">else </span>{
+              <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+          }
+      }
+  }
+
+<span class="kw">fn </span>main() {
+    <span class="comment">// atomic variable controlling logging level
+    </span><span class="kw">let </span>on = Arc::new(atomic::AtomicBool::new(<span class="bool-val">false</span>));
+
+    <span class="kw">let </span>decorator = slog_term::TermDecorator::new().build();
+    <span class="kw">let </span>drain = slog_term::FullFormat::new(decorator).build();
+    <span class="kw">let </span>drain = RuntimeLevelFilter {
+        drain: drain,
+        on: on.clone(),
+    }.fuse();
+    <span class="kw">let </span>drain = slog_async::Async::new(drain).build().fuse();
+
+    <span class="kw">let </span>_log = slog::Logger::root(drain, <span class="macro">o!</span>());
+
+    <span class="comment">// switch level in your code
+    </span>on.store(<span class="bool-val">true</span>, Ordering::Relaxed);
+}</code></pre></div>
+<p>Why is this not an existing crate? Because there are multiple ways to
+achieve the same result, and each application might come with its own
+variation. Supporting a more general solution is a maintenance effort.
+There is also nothing stopping anyone from publishing their own crate
+implementing it.</p>
+<p>Alternative to the above approach is <code>slog-atomic</code> crate. It implements
+swapping whole parts of <code>Drain</code> logging hierarchy.</p>
+<h3 id="examples--help"><a href="#examples--help">Examples &amp; help</a></h3>
+<p>Basic examples that are kept up-to-date are typically stored in
+respective git repository, under <code>examples/</code> subdirectory. Eg.
+<a href="https://github.com/slog-rs/term/tree/master/examples">slog-term examples</a>.</p>
+<p><a href="https://github.com/slog-rs/slog/wiki">slog-rs wiki pages</a> contain
+some pages about <code>slog-rs</code> technical details.</p>
+<p>Source code of other <a href="https://crates.io/crates/slog/reverse_dependencies">software using
+slog-rs</a> can
+be an useful reference.</p>
+<p>Visit <a href="https://gitter.im/slog-rs/slog">slog-rs gitter channel</a> for immediate
+help.</p>
+<h3 id="migrating-from-slog-v1-to-slog-v2"><a href="#migrating-from-slog-v1-to-slog-v2">Migrating from slog v1 to slog v2</a></h3><h4 id="key-value-pairs-come-now-after-format-string"><a href="#key-value-pairs-come-now-after-format-string">Key-value pairs come now after format string</a></h4>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="attr">#[macro_use]
+</span><span class="kw">extern crate </span>slog;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>drain = slog::Discard;
+    <span class="kw">let </span>root = slog::Logger::root(drain, <span class="macro">o!</span>());
+    <span class="macro">info!</span>(root, <span class="string">&quot;formatted: {}&quot;</span>, <span class="number">1</span>; <span class="string">&quot;log-key&quot; </span>=&gt; <span class="bool-val">true</span>);
+}</code></pre></div>
+<p>See more information about format at <a href="macro.log.html"><code>log</code></a>.</p>
+<h4 id="slog-streamer-is-gone"><a href="#slog-streamer-is-gone"><code>slog-streamer</code> is gone</a></h4>
+<p>Create simple terminal logger like this:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[macro_use]
+</span><span class="kw">extern crate </span>slog;
+<span class="kw">extern crate </span>slog_term;
+<span class="kw">extern crate </span>slog_async;
+
+<span class="kw">use </span>slog::Drain;
+
+<span class="kw">fn </span>main() {
+    <span class="kw">let </span>decorator = slog_term::TermDecorator::new().build();
+    <span class="kw">let </span>drain = slog_term::FullFormat::new(decorator).build().fuse();
+    <span class="kw">let </span>drain = slog_async::Async::new(drain).build().fuse();
+
+    <span class="kw">let </span>_log = slog::Logger::root(drain, <span class="macro">o!</span>());
+}</code></pre></div>
+<h4 id="logging-macros-now-takes-ownership-of-values"><a href="#logging-macros-now-takes-ownership-of-values">Logging macros now takes ownership of values.</a></h4>
+<p>Pass them by reference: <code>&amp;x</code>.</p>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="ser/index.html" title="mod slog::ser">ser</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Compatibility name to ease upgrading from <code>slog v1</code></div></li></ul><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2><ul class="item-table"><li><div class="item-name"><a class="macro" href="macro.b.html" title="macro slog::b">b</a></div><div class="desc docblock-short">Macro for building group of key-value pairs in
+<a href="struct.BorrowedKV.html"><code>BorrowedKV</code></a></div></li><li><div class="item-name"><a class="macro" href="macro.crit.html" title="macro slog::crit">crit</a></div><div class="desc docblock-short">Log critical level record</div></li><li><div class="item-name"><a class="macro" href="macro.debug.html" title="macro slog::debug">debug</a></div><div class="desc docblock-short">Log debug level record</div></li><li><div class="item-name"><a class="macro" href="macro.error.html" title="macro slog::error">error</a></div><div class="desc docblock-short">Log error level record</div></li><li><div class="item-name"><a class="macro" href="macro.info.html" title="macro slog::info">info</a></div><div class="desc docblock-short">Log info level record</div></li><li><div class="item-name"><a class="macro" href="macro.kv.html" title="macro slog::kv">kv</a></div><div class="desc docblock-short">Macro for build <code>KV</code> implementing type</div></li><li><div class="item-name"><a class="macro" href="macro.log.html" title="macro slog::log">log</a></div><div class="desc docblock-short">Log message a logging record</div></li><li><div class="item-name"><a class="macro" href="macro.o.html" title="macro slog::o">o</a></div><div class="desc docblock-short">Macro for building group of key-value pairs:
+<a href="struct.OwnedKV.html"><code>OwnedKV</code></a></div></li><li><div class="item-name"><a class="macro" href="macro.record.html" title="macro slog::record">record</a></div><div class="desc docblock-short">Create <code>Record</code> at the given code location</div></li><li><div class="item-name"><a class="macro" href="macro.record_static.html" title="macro slog::record_static">record_static</a></div><div class="desc docblock-short">Create <code>RecordStatic</code> at the given code location</div></li><li><div class="item-name"><a class="macro" href="macro.slog_b.html" title="macro slog::slog_b">slog_b</a></div><div class="desc docblock-short">Alias of <code>b</code></div></li><li><div class="item-name"><a class="macro" href="macro.slog_crit.html" title="macro slog::slog_crit">slog_crit</a></div><div class="desc docblock-short">Log critical level record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_debug.html" title="macro slog::slog_debug">slog_debug</a></div><div class="desc docblock-short">Log debug level record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_error.html" title="macro slog::slog_error">slog_error</a></div><div class="desc docblock-short">Log error level record</div></li><li><div class="item-name"><a class="macro" href="macro.slog_info.html" title="macro slog::slog_info">slog_info</a></div><div class="desc docblock-short">Log info level record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_kv.html" title="macro slog::slog_kv">slog_kv</a></div><div class="desc docblock-short">Alias of <code>kv</code></div></li><li><div class="item-name"><a class="macro" href="macro.slog_log.html" title="macro slog::slog_log">slog_log</a></div><div class="desc docblock-short">Log message a logging record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_o.html" title="macro slog::slog_o">slog_o</a></div><div class="desc docblock-short">Macro for building group of key-value pairs (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_record.html" title="macro slog::slog_record">slog_record</a></div><div class="desc docblock-short">Create <code>Record</code> at the given code location (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_record_static.html" title="macro slog::slog_record_static">slog_record_static</a></div><div class="desc docblock-short">Create <code>RecordStatic</code> at the given code location (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_trace.html" title="macro slog::slog_trace">slog_trace</a></div><div class="desc docblock-short">Log trace level record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.slog_warn.html" title="macro slog::slog_warn">slog_warn</a></div><div class="desc docblock-short">Log warning level record (alias)</div></li><li><div class="item-name"><a class="macro" href="macro.trace.html" title="macro slog::trace">trace</a></div><div class="desc docblock-short">Log trace level record</div></li><li><div class="item-name"><a class="macro" href="macro.warn.html" title="macro slog::warn">warn</a></div><div class="desc docblock-short">Log warning level record</div></li></ul><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.BorrowedKV.html" title="struct slog::BorrowedKV">BorrowedKV</a></div><div class="desc docblock-short">Borrowed <code>KV</code></div></li><li><div class="item-name"><a class="struct" href="struct.Discard.html" title="struct slog::Discard">Discard</a></div><div class="desc docblock-short"><code>Drain</code> discarding everything</div></li><li><div class="item-name"><a class="struct" href="struct.Duplicate.html" title="struct slog::Duplicate">Duplicate</a></div><div class="desc docblock-short"><code>Drain</code> duplicating records into two other <code>Drain</code>s</div></li><li><div class="item-name"><a class="struct" href="struct.ErrorValue.html" title="struct slog::ErrorValue">ErrorValue</a></div><div class="desc docblock-short">A wrapper struct for serializing errors</div></li><li><div class="item-name"><a class="struct" href="struct.Filter.html" title="struct slog::Filter">Filter</a></div><div class="desc docblock-short"><code>Drain</code> filtering records</div></li><li><div class="item-name"><a class="struct" href="struct.FnValue.html" title="struct slog::FnValue">FnValue</a></div><div class="desc docblock-short">Explicit lazy-closure <code>Value</code></div></li><li><div class="item-name"><a class="struct" href="struct.Fuse.html" title="struct slog::Fuse">Fuse</a></div><div class="desc docblock-short"><code>Drain</code> panicking on error</div></li><li><div class="item-name"><a class="struct" href="struct.IgnoreResult.html" title="struct slog::IgnoreResult">IgnoreResult</a></div><div class="desc docblock-short"><code>Drain</code> ignoring result</div></li><li><div class="item-name"><a class="struct" href="struct.Key.html" title="struct slog::Key">Key</a></div><div class="desc docblock-short">Opaque Key is a representation of a key.</div></li><li><div class="item-name"><a class="struct" href="struct.LevelFilter.html" title="struct slog::LevelFilter">LevelFilter</a></div><div class="desc docblock-short"><code>Drain</code> filtering records by <code>Record</code> logging level</div></li><li><div class="item-name"><a class="struct" href="struct.Logger.html" title="struct slog::Logger">Logger</a></div><div class="desc docblock-short">Logging handle used to execute logging statements</div></li><li><div class="item-name"><a class="struct" href="struct.MapError.html" title="struct slog::MapError">MapError</a></div><div class="desc docblock-short"><code>Drain</code> mapping error returned by another <code>Drain</code></div></li><li><div class="item-name"><a class="struct" href="struct.OwnedKV.html" title="struct slog::OwnedKV">OwnedKV</a></div><div class="desc docblock-short">Owned KV</div></li><li><div class="item-name"><a class="struct" href="struct.OwnedKVList.html" title="struct slog::OwnedKVList">OwnedKVList</a></div><div class="desc docblock-short">Chain of <code>SyncMultiSerialize</code>-s of a <code>Logger</code> and its ancestors</div></li><li><div class="item-name"><a class="struct" href="struct.PushFnValue.html" title="struct slog::PushFnValue">PushFnValue</a></div><div class="desc docblock-short">Lazy <code>Value</code> that writes to Serializer</div></li><li><div class="item-name"><a class="struct" href="struct.PushFnValueSerializer.html" title="struct slog::PushFnValueSerializer">PushFnValueSerializer</a></div><div class="desc docblock-short">Handle passed to <code>PushFnValue</code> closure</div></li><li><div class="item-name"><a class="struct" href="struct.Record.html" title="struct slog::Record">Record</a></div><div class="desc docblock-short">One logging record</div></li><li><div class="item-name"><a class="struct" href="struct.RecordStatic.html" title="struct slog::RecordStatic">RecordStatic</a></div><div class="desc docblock-short">Information that can be static in the given record thus allowing to optimize
+record creation to be done mostly at compile-time.</div></li><li><div class="item-name"><a class="struct" href="struct.SingleKV.html" title="struct slog::SingleKV">SingleKV</a></div><div class="desc docblock-short">Single pair <code>Key</code> and <code>Value</code></div></li></ul><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Error.html" title="enum slog::Error">Error</a></div><div class="desc docblock-short">Serialization Error</div></li><li><div class="item-name"><a class="enum" href="enum.FilterLevel.html" title="enum slog::FilterLevel">FilterLevel</a></div><div class="desc docblock-short">Logging filtering level</div></li><li><div class="item-name"><a class="enum" href="enum.Level.html" title="enum slog::Level">Level</a></div><div class="desc docblock-short">Logging level associated with a logging <code>Record</code></div></li><li><div class="item-name"><a class="enum" href="enum.MutexDrainError.html" title="enum slog::MutexDrainError">MutexDrainError</a></div><div class="desc docblock-short">Error returned by <code>Mutex&lt;D : Drain&gt;</code></div></li></ul><h2 id="statics" class="small-section-header"><a href="#statics">Statics</a></h2><ul class="item-table"><li><div class="item-name"><a class="static" href="static.LOG_LEVEL_NAMES.html" title="static slog::LOG_LEVEL_NAMES">LOG_LEVEL_NAMES</a></div><div class="desc docblock-short">Official capitalized logging (and logging filtering) level names</div></li><li><div class="item-name"><a class="static" href="static.LOG_LEVEL_SHORT_NAMES.html" title="static slog::LOG_LEVEL_SHORT_NAMES">LOG_LEVEL_SHORT_NAMES</a></div><div class="desc docblock-short">Official capitalized logging (and logging filtering) short level names</div></li></ul><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.Drain.html" title="trait slog::Drain">Drain</a></div><div class="desc docblock-short">Logging drain</div></li><li><div class="item-name"><a class="trait" href="trait.FilterFn.html" title="trait slog::FilterFn">FilterFn</a></div><div class="desc docblock-short">Function that can be used in <code>Filter</code> drain</div></li><li><div class="item-name"><a class="trait" href="trait.KV.html" title="trait slog::KV">KV</a></div><div class="desc docblock-short">Key-value pair(s) for log events</div></li><li><div class="item-name"><a class="trait" href="trait.MapErrFn.html" title="trait slog::MapErrFn">MapErrFn</a></div><div class="desc docblock-short">Function that can be used in <code>MapErr</code> drain</div></li><li><div class="item-name"><a class="trait" href="trait.SendRefUnwindSafeDrain.html" title="trait slog::SendRefUnwindSafeDrain">SendRefUnwindSafeDrain</a></div><div class="desc docblock-short"><code>Drain + Send + RefUnwindSafe</code> bound</div></li><li><div class="item-name"><a class="trait" href="trait.SendSyncRefUnwindSafeDrain.html" title="trait slog::SendSyncRefUnwindSafeDrain">SendSyncRefUnwindSafeDrain</a></div><div class="desc docblock-short"><code>Drain + Send + Sync + RefUnwindSafe</code> bound</div></li><li><div class="item-name"><a class="trait" href="trait.SendSyncRefUnwindSafeKV.html" title="trait slog::SendSyncRefUnwindSafeKV">SendSyncRefUnwindSafeKV</a></div><div class="desc docblock-short">This type is used to enforce <code>KV</code>s stored in <code>Logger</code>s are thread-safe.</div></li><li><div class="item-name"><a class="trait" href="trait.SendSyncUnwindSafe.html" title="trait slog::SendSyncUnwindSafe">SendSyncUnwindSafe</a></div><div class="desc docblock-short"><code>Send + Sync + UnwindSafe</code> bound</div></li><li><div class="item-name"><a class="trait" href="trait.SendSyncUnwindSafeDrain.html" title="trait slog::SendSyncUnwindSafeDrain">SendSyncUnwindSafeDrain</a></div><div class="desc docblock-short"><code>Drain + Send + Sync + UnwindSafe</code> bound</div></li><li><div class="item-name"><a class="trait" href="trait.Serializer.html" title="trait slog::Serializer">Serializer</a></div><div class="desc docblock-short">Serializer</div></li><li><div class="item-name"><a class="trait" href="trait.Value.html" title="trait slog::Value">Value</a></div><div class="desc docblock-short">Value that can be serialized</div></li></ul><h2 id="types" class="small-section-header"><a href="#types">Type Definitions</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="type.OwnedKeyValueList.html" title="type slog::OwnedKeyValueList">OwnedKeyValueList</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Compatibility name to ease upgrading from <code>slog v1</code></div></li><li><div class="item-name"><a class="type" href="type.PushFnSerializer.html" title="type slog::PushFnSerializer">PushFnSerializer</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Old name of <code>PushFnValueSerializer</code></div></li><li><div class="item-name"><a class="type" href="type.PushLazy.html" title="type slog::PushLazy">PushLazy</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Compatibility name to ease upgrading from <code>slog v1</code></div></li><li><div class="item-name"><a class="type" href="type.Result.html" title="type slog::Result">Result</a></div><div class="desc docblock-short">Serialization <code>Result</code></div></li><li><div class="item-name"><a class="type" href="type.Serialize.html" title="type slog::Serialize">Serialize</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Compatibility name to ease upgrading from <code>slog v1</code></div></li><li><div class="item-name"><a class="type" href="type.ValueSerializer.html" title="type slog::ValueSerializer">ValueSerializer</a><span class="stab deprecated" title="">Deprecated</span></div><div class="desc docblock-short">Compatibility name to ease upgrading from <code>slog v1</code></div></li></ul></section></div></main></body></html>

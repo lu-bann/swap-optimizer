@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["WalletError"],"fn":["to_eip155_v"],"mod":["coins_bip39"],"struct":["MnemonicBuilder","Wallet"],"trait":["Signer"],"type":["LocalWallet"]};

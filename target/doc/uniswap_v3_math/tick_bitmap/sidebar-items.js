@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["next_initialized_tick_within_one_word","next_initialized_tick_within_one_word_from_provider","position"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["BFGS","DFP","LBFGS","SR1","SR1TrustRegion"]};

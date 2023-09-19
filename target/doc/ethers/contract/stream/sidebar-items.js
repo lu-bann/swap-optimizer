@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["EventStream","EventStreamMeta","SelectEvent"],"type":["SelectEither"]};

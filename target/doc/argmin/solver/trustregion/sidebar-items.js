@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["reduction_ratio"],"struct":["CauchyPoint","Dogleg","Steihaug","TrustRegion"],"trait":["TrustRegionRadius"]};

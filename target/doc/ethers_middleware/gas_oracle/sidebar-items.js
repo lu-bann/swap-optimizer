@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["GasCategory","GasOracleError"],"mod":["blocknative","cache","eth_gas_station","etherchain","etherscan","gas_now","median","middleware","polygon","provider_oracle"],"trait":["GasOracle"],"type":["Result"]};

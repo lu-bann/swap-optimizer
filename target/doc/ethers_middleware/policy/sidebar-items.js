@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["PolicyMiddlewareError"],"struct":["AllowEverything","PolicyMiddleware","RejectEverything"],"trait":["Policy"]};

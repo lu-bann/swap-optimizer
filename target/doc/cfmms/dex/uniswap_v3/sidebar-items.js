@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["POOL_CREATED_EVENT_SIGNATURE"],"struct":["UniswapV3Dex"]};

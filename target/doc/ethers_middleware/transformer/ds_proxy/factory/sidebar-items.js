@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["ds_proxy_factory"],"static":["ADDRESS_BOOK"]};

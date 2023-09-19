@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/harryg/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ethers-etherscan-2.0.10/src/errors.rs`."><title>errors.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9bb858ba049f1f21.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="ethers_etherscan" data-themes="" data-resource-suffix="" data-rustdoc-version="1.72.0 (5680fa18f 2023-08-23)" data-channel="1.72.0" data-search-js="search-f6292fe389d70017.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ><script src="../../static.files/storage-59fd9b8ccb335783.js"></script><script defer src="../../static.files/source-script-106908c7a7964ba4.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../ethers_etherscan/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<a href="#2" id="2">2</a>
+<a href="#3" id="3">3</a>
+<a href="#4" id="4">4</a>
+<a href="#5" id="5">5</a>
+<a href="#6" id="6">6</a>
+<a href="#7" id="7">7</a>
+<a href="#8" id="8">8</a>
+<a href="#9" id="9">9</a>
+<a href="#10" id="10">10</a>
+<a href="#11" id="11">11</a>
+<a href="#12" id="12">12</a>
+<a href="#13" id="13">13</a>
+<a href="#14" id="14">14</a>
+<a href="#15" id="15">15</a>
+<a href="#16" id="16">16</a>
+<a href="#17" id="17">17</a>
+<a href="#18" id="18">18</a>
+<a href="#19" id="19">19</a>
+<a href="#20" id="20">20</a>
+<a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
+<a href="#25" id="25">25</a>
+<a href="#26" id="26">26</a>
+<a href="#27" id="27">27</a>
+<a href="#28" id="28">28</a>
+<a href="#29" id="29">29</a>
+<a href="#30" id="30">30</a>
+<a href="#31" id="31">31</a>
+<a href="#32" id="32">32</a>
+<a href="#33" id="33">33</a>
+<a href="#34" id="34">34</a>
+<a href="#35" id="35">35</a>
+<a href="#36" id="36">36</a>
+<a href="#37" id="37">37</a>
+<a href="#38" id="38">38</a>
+<a href="#39" id="39">39</a>
+<a href="#40" id="40">40</a>
+<a href="#41" id="41">41</a>
+<a href="#42" id="42">42</a>
+<a href="#43" id="43">43</a>
+<a href="#44" id="44">44</a>
+<a href="#45" id="45">45</a>
+<a href="#46" id="46">46</a>
+<a href="#47" id="47">47</a>
+<a href="#48" id="48">48</a>
+<a href="#49" id="49">49</a>
+<a href="#50" id="50">50</a>
+<a href="#51" id="51">51</a>
+<a href="#52" id="52">52</a>
+<a href="#53" id="53">53</a>
+<a href="#54" id="54">54</a>
+<a href="#55" id="55">55</a>
+<a href="#56" id="56">56</a>
+<a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
+<a href="#59" id="59">59</a>
+<a href="#60" id="60">60</a>
+<a href="#61" id="61">61</a>
+<a href="#62" id="62">62</a>
+<a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
+<a href="#67" id="67">67</a>
+<a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
+<a href="#70" id="70">70</a>
+<a href="#71" id="71">71</a>
+<a href="#72" id="72">72</a>
+<a href="#73" id="73">73</a>
+<a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
+<a href="#76" id="76">76</a>
+<a href="#77" id="77">77</a>
+<a href="#78" id="78">78</a>
+<a href="#79" id="79">79</a>
+<a href="#80" id="80">80</a>
+<a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
+<a href="#83" id="83">83</a>
+<a href="#84" id="84">84</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span>ethers_core::types::{Address, Chain};
+<span class="kw">use </span>std::env::VarError;
+
+<span class="attr">#[derive(Debug, thiserror::Error)]
+</span><span class="kw">pub enum </span>EtherscanError {
+    <span class="attr">#[error(<span class="string">&quot;Chain {0} not supported&quot;</span>)]
+    </span>ChainNotSupported(Chain),
+    <span class="attr">#[error(<span class="string">&quot;Contract execution call failed: {0}&quot;</span>)]
+    </span>ExecutionFailed(String),
+    <span class="attr">#[error(<span class="string">&quot;Balance failed&quot;</span>)]
+    </span>BalanceFailed,
+    <span class="attr">#[error(<span class="string">&quot;Block by timestamp failed&quot;</span>)]
+    </span>BlockNumberByTimestampFailed,
+    <span class="attr">#[error(<span class="string">&quot;Transaction receipt failed&quot;</span>)]
+    </span>TransactionReceiptFailed,
+    <span class="attr">#[error(<span class="string">&quot;Gas estimation failed&quot;</span>)]
+    </span>GasEstimationFailed,
+    <span class="attr">#[error(<span class="string">&quot;Bad status code: {0}&quot;</span>)]
+    </span>BadStatusCode(String),
+    <span class="attr">#[error(transparent)]
+    </span>EnvVarNotFound(<span class="attr">#[from] </span>VarError),
+    <span class="attr">#[error(transparent)]
+    </span>Reqwest(<span class="attr">#[from] </span>reqwest::Error),
+    <span class="attr">#[error(transparent)]
+    </span>Serde(<span class="attr">#[from] </span>serde_json::Error),
+    <span class="attr">#[error(<span class="string">&quot;Contract source code not verified: {0}&quot;</span>)]
+    </span>ContractCodeNotVerified(Address),
+    <span class="attr">#[error(<span class="string">&quot;Response result is unexpectedly empty: status={status}, message={message}&quot;</span>)]
+    </span>EmptyResult { status: String, message: String },
+    <span class="attr">#[error(<span class="string">&quot;Rate limit exceeded&quot;</span>)]
+    </span>RateLimitExceeded,
+    <span class="attr">#[error(transparent)]
+    </span>IO(<span class="attr">#[from] </span>std::io::Error),
+    <span class="attr">#[error(<span class="string">&quot;Local networks (e.g. anvil, ganache, geth --dev) cannot be indexed by etherscan&quot;</span>)]
+    </span>LocalNetworksNotSupported,
+    <span class="attr">#[error(<span class="string">&quot;Received error response: status={status},message={message}, result={result:?}&quot;</span>)]
+    </span>ErrorResponse { status: String, message: String, result: <span class="prelude-ty">Option</span>&lt;String&gt; },
+    <span class="attr">#[error(<span class="string">&quot;Unknown error: {0}&quot;</span>)]
+    </span>Unknown(String),
+    <span class="attr">#[error(<span class="string">&quot;Missing field: {0}&quot;</span>)]
+    </span>Builder(String),
+    <span class="attr">#[error(<span class="string">&quot;Missing solc version: {0}&quot;</span>)]
+    </span>MissingSolcVersion(String),
+    <span class="attr">#[error(<span class="string">&quot;Invalid API Key&quot;</span>)]
+    </span>InvalidApiKey,
+    <span class="attr">#[error(<span class="string">&quot;Sorry, you have been blocked by Cloudflare, See also https://community.cloudflare.com/t/sorry-you-have-been-blocked/110790&quot;</span>)]
+    </span>BlockedByCloudflare,
+    <span class="attr">#[error(<span class="string">&quot;The Requested prompted a cloudflare captcha security challenge to review the security of your connection before proceeding.&quot;</span>)]
+    </span>CloudFlareSecurityChallenge,
+    <span class="attr">#[error(<span class="string">&quot;Received `Page not found` response. API server is likely down&quot;</span>)]
+    </span>PageNotFound,
+}
+
+<span class="doccomment">/// etherscan/polyscan is protected by cloudflare, which can lead to html responses like `Sorry, you have been blocked` See also &lt;https://community.cloudflare.com/t/sorry-you-have-been-blocked/110790&gt;
+///
+/// This returns true if the `txt` is a cloudflare error response
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_blocked_by_cloudflare_response(txt: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    txt.to_lowercase().contains(<span class="string">&quot;sorry, you have been blocked&quot;</span>)
+}
+
+<span class="doccomment">/// etherscan/polyscan is protected by cloudflare, which can require captchas to &quot;review the
+/// security of your connection before proceeding&quot;
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>is_cloudflare_security_challenge(txt: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    txt.contains(<span class="string">&quot;https://www.cloudflare.com?utm_source=challenge&quot;</span>) ||
+        txt.to_lowercase().contains(<span class="string">&quot;checking if the site connection is secure&quot;</span>)
+}
+
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_is_cloudflare_security_challenge() {
+        <span class="kw">let </span>res = <span class="string">&quot;&lt;!DOCTYPE html&gt;&lt;html lang=\&quot;en-US\&quot;&gt;&lt;head&gt;    &lt;title&gt;Just a moment...&lt;/title&gt;    &lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=UTF-8\&quot;&gt;    &lt;meta http-equiv=\&quot;X-UA-Compatible\&quot; content=\&quot;IE=Edge\&quot;&gt;    &lt;meta name=\&quot;robots\&quot; content=\&quot;noindex,nofollow\&quot;&gt;    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width,initial-scale=1\&quot;&gt;    &lt;link href=\&quot;/cdn-cgi/styles/challenges.css\&quot; rel=\&quot;stylesheet\&quot;&gt;    &lt;/head&gt;&lt;body class=\&quot;no-js\&quot;&gt;    &lt;div class=\&quot;main-wrapper\&quot; role=\&quot;main\&quot;&gt;    &lt;div class=\&quot;main-content\&quot;&gt;        &lt;h1 class=\&quot;zone-name-title h1\&quot;&gt;            &lt;img class=\&quot;heading-favicon\&quot; src=\&quot;/favicon.ico\&quot; alt=\&quot;Icon for api-goerli.etherscan.io\&quot;                 onerror=\&quot;this.onerror=null;this.parentNode.removeChild(this)\&quot;&gt;            api-goerli.etherscan.io        &lt;/h1&gt;        &lt;h2 class=\&quot;h2\&quot; id=\&quot;challenge-running\&quot;&gt;            Checking if the site connection is secure        &lt;/h2&gt;        &lt;noscript&gt;            &lt;div id=\&quot;challenge-error-title\&quot;&gt;                &lt;div class=\&quot;h2\&quot;&gt;                    &lt;span class=\&quot;icon-wrapper\&quot;&gt;                        &lt;div class=\&quot;heading-icon warning-icon\&quot;&gt;&lt;/div&gt;                    &lt;/span&gt;                    &lt;span id=\&quot;challenge-error-text\&quot;&gt;                        Enable JavaScript and cookies to continue                    &lt;/span&gt;                &lt;/div&gt;            &lt;/div&gt;        &lt;/noscript&gt;        &lt;div id=\&quot;trk_jschal_js\&quot; style=\&quot;display:none;background-image:url(&#39;/cdn-cgi/images/trace/captcha/nojs/transparent.gif?ray=794294b0ff122cc8&#39;)\&quot;&gt;&lt;/div&gt;        &lt;div id=\&quot;challenge-body-text\&quot; class=\&quot;core-msg spacer\&quot;&gt;            api-goerli.etherscan.io needs to review the security of your connection before proceeding.        &lt;/div&gt;        &lt;form id=\&quot;challenge-form\&quot; action=\&quot;/api/?__cf_chl_f_tk=3e8YnNWEoJpt7yhj9ZB_z7nPP6BpgWkrEO9fxS_FHfs-1675505052-0-gaNycGzNCv0\&quot; method=\&quot;POST\&quot; enctype=\&quot;application/x-www-form-urlencoded\&quot;&gt;            &lt;input type=\&quot;hidden\&quot; name=\&quot;md\&quot; value=\&quot;kphchgOl8CtVKUgr8zjngomaIt8zm7QzUkLvDaiTi.Q-1675505052-0-Ae-rscWjz835ha6epVnom-tK6T9VtNzQrwuMr1t3Ajth5BX5PQNhXdiKh7SzcaqcQ1sNxb_BVXo_zQsvD9DKNXvBQXaSAWho5s2SvMaYxzNolLg01kyTNP0b9YiAKirGukD524hsIbyLgZRR3H8VDEfVwpDADGKb3MhA5rwiHE8oGZcLgjcVjj4nXGYWGwKOjo6LyPWuoRLSHrMRYzsrizm-GQ1fafuos6afDCPTV6B05TLLodI4z2wNbeirPKaZGL3rScvPR_F-CGS1vWFJvLxlqJ0dulyMP_gehm_1AJm-FPevnqJoCgyU51wBgCkkVfOmwj31xAFhk1SaWUIrjxhN-PRH2RUMtnEdWHRffX20JCcc4OJ2HbTZ-J7u9U713PG-A3SPE2Az_nUoVOeJ90_aytPlYLppspJCYFceac4VUUldRVlGyHGkZBafp9xA0wOJzAhDy8K9PiVfRkso-dyM1t5tNr4qCtg3HutQ5u2E\&quot;&gt;            &lt;input type=\&quot;hidden\&quot; name=\&quot;r\&quot; value=\&quot;qppUKLcDpkximVAwuJGymQi_4Iem1Vkg1AKAEuUoy4o-1675505052-0-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\&quot;&gt;        &lt;/form&gt;    &lt;/div&gt;&lt;/div&gt;&lt;script&gt;    (function(){        window._cf_chl_opt={            cvId: &#39;2&#39;,            cZone: &#39;api-goerli.etherscan.io&#39;,            cType: &#39;interactive&#39;,            cNounce: &#39;15579&#39;,            cRay: &#39;794294b0ff122cc8&#39;,            cHash: &#39;8512e1389fe72aa&#39;,            cUPMDTk: \&quot;\\/api\\/?__cf_chl_tk=3e8YnNWEoJpt7yhj9ZB_z7nPP6BpgWkrEO9fxS_FHfs-1675505052-0-gaNycGzNCv0\&quot;,            cFPWv: &#39;b&#39;,            cTTimeMs: &#39;1000&#39;,            cMTimeMs: &#39;0&#39;,            cTplV: 4,            cTplB: &#39;cf&#39;,            cRq: {                ru: &#39;aHR0cHM6Ly9hcGktZ29lcmxpLmV0aGVyc2Nhbi5pby9hcGkv&#39;,                ra: &#39;Tk9fVUE=&#39;,                rm: &#39;UE9TVA==&#39;,                d: &#39;iVIFhJNH894P6YjM/iKMo5udA3+52aRoalezmALjhknKSbsB4BNUHq4xo08NpSCwVCpWCaVZhDDFDyjuk/b8Qc7g0gq6r2Nvql1jbmMxMYtueXQZm3u2y81oNhVmL0b0KzAx055+4tUbIe8wMboAsOqvpV8HaPpnIEcjO41rPHALM1ut6PKgqUidMU2DTeQbXhyZHbsrIqMsPbNpBQ4G9nepnyEEiOKZVICjhh2ic0LlLh9dcVTFH7r/ROe+A0rslaTcS+rrPg02VaiykvjlAHsbI+LNk6L/VBwZiX2BmQzErGaj3BF04hqKLou63qO55g6mwwiNfV/clJ8CivVcpJiZqEVpSpINLP3WCuEoYoxUzDhhSDQ1YQ2pCVVpc452gocFRa9HjyV0FD8UoZ6OvJsCglBzHa8OnzVsxd8GrVnmM0lrb5NuhoNo+0SQwmu58AcvXeB4thDjbbWAjQ0bMw4xFX7VUyzFtXWw7bb2pXdccyTeknMFlj2G9LdIuWyKPD+oYiuMGZjM64rc+LwEFOTZoXtGcyYLCIY8tkuKpzv8BVhndkDe6oEPNK5K5dqTWXa6lVeOE/Y057XOafCx7Nk6WBqL8yKp9o/QTv5DL3+/cfVHo1BDAD7cPupkBxB8VERZymbMhOt+LaDbw5/9F58hhWIXKaA0H2QAWnhLeoQ=&#39;,                t: &#39;MTY3NTUwNTA1Mi4zMTYwMDA=&#39;,                m: &#39;huwkp03FUUZ92f+uj1z1ri+z/UDtSxTEi2kfQAe8UXc=&#39;,                i1: &#39;AOVDmRSzY4mEqw31LLK8pg==&#39;,                i2: &#39;iqndipsrr9TKcGG+p6I0sQ==&#39;,                zh: &#39;qb4aFuGlbJn/rUOkKXjUqElKDKE10jDqu5PE014OTwk=&#39;,                uh: &#39;DV4j3Tmrbi5Rs1q3ahwVS6SgbPbI7np5884QO1u1Cgg=&#39;,                hh: &#39;Ax949TKiHbaXasTISC7ryL1/i3VsF1So3LziNEbpSQM=&#39;,            }        };        var trkjs = document.createElement(&#39;img&#39;);        trkjs.setAttribute(&#39;src&#39;, &#39;/cdn-cgi/images/trace/captcha/js/transparent.gif?ray=794294b0ff122cc8&#39;);        trkjs.setAttribute(&#39;alt&#39;, &#39;&#39;);        trkjs.setAttribute(&#39;style&#39;, &#39;display: none&#39;);        document.body.appendChild(trkjs);        var cpo = document.createElement(&#39;script&#39;);        cpo.src = &#39;/cdn-cgi/challenge-platform/h/b/orchestrate/captcha/v1?ray=794294b0ff122cc8&#39;;        window._cf_chl_opt.cOgUHash = location.hash === &#39;&#39; &amp;&amp; location.href.indexOf(&#39;#&#39;) !== -1 ? &#39;#&#39; : location.hash;        window._cf_chl_opt.cOgUQuery = location.search === &#39;&#39; &amp;&amp; location.href.slice(0, location.href.length - window._cf_chl_opt.cOgUHash.length).indexOf(&#39;?&#39;) !== -1 ? &#39;?&#39; : location.search;        if (window.history &amp;&amp; window.history.replaceState) {            var ogU = location.pathname + window._cf_chl_opt.cOgUQuery + window._cf_chl_opt.cOgUHash;            history.replaceState(null, null, \&quot;\\/api\\/?__cf_chl_rt_tk=3e8YnNWEoJpt7yhj9ZB_z7nPP6BpgWkrEO9fxS_FHfs-1675505052-0-gaNycGzNCv0\&quot; + window._cf_chl_opt.cOgUHash);            cpo.onload = function() {                history.replaceState(null, null, ogU);            };        }        document.getElementsByTagName(&#39;head&#39;)[0].appendChild(cpo);    }());&lt;/script&gt;    &lt;div class=\&quot;footer\&quot; role=\&quot;contentinfo\&quot;&gt;        &lt;div class=\&quot;footer-inner\&quot;&gt;            &lt;div class=\&quot;clearfix diagnostic-wrapper\&quot;&gt;                &lt;div class=\&quot;ray-id\&quot;&gt;Ray ID: &lt;code&gt;794294b0ff122cc8&lt;/code&gt;&lt;/div&gt;            &lt;/div&gt;            &lt;div class=\&quot;text-center\&quot; id=\&quot;footer-text\&quot;&gt;Performance &amp; security by &lt;a rel=\&quot;noopener noreferrer\&quot; href=\&quot;https://www.cloudflare.com?utm_source=challenge&amp;utm_campaign=l\&quot; target=\&quot;_blank\&quot;&gt;Cloudflare&lt;/a&gt;&lt;/div&gt;        &lt;/div&gt;    &lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span>;
+        <span class="macro">assert!</span>(is_cloudflare_security_challenge(res));
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_cloudflare_response() {
+        <span class="kw">let </span>resp = <span class="string">&quot;&lt;!DOCTYPE html&gt;\n&lt;!--[if lt IE 7]&gt; &lt;html class=\&quot;no-js ie6 oldie\&quot; lang=\&quot;en-US\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if IE 7]&gt;    &lt;html class=\&quot;no-js ie7 oldie\&quot; lang=\&quot;en-US\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if IE 8]&gt;    &lt;html class=\&quot;no-js ie8 oldie\&quot; lang=\&quot;en-US\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if gt IE 8]&gt;&lt;!--&gt; &lt;html class=\&quot;no-js\&quot; lang=\&quot;en-US\&quot;&gt; &lt;!--&lt;![endif]--&gt;\n&lt;head&gt;\n&lt;title&gt;Attention Required! | Cloudflare&lt;/title&gt;\n&lt;meta charset=\&quot;UTF-8\&quot; /&gt;\n&lt;meta http-equiv=\&quot;Content-Type\&quot; content=\&quot;text/html; charset=UTF-8\&quot; /&gt;\n&lt;meta http-equiv=\&quot;X-UA-Compatible\&quot; content=\&quot;IE=Edge\&quot; /&gt;\n&lt;meta name=\&quot;robots\&quot; content=\&quot;noindex, nofollow\&quot; /&gt;\n&lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width,initial-scale=1\&quot; /&gt;\n&lt;link rel=\&quot;stylesheet\&quot; id=\&quot;cf_styles-css\&quot; href=\&quot;/cdn-cgi/styles/cf.errors.css\&quot; /&gt;\n&lt;!--[if lt IE 9]&gt;&lt;link rel=\&quot;stylesheet\&quot; id=&#39;cf_styles-ie-css&#39; href=\&quot;/cdn-cgi/styles/cf.errors.ie.css\&quot; /&gt;&lt;![endif]--&gt;\n&lt;style&gt;body{margin:0;padding:0}&lt;/style&gt;\n\n\n&lt;!--[if gte IE 10]&gt;&lt;!--&gt;\n&lt;script&gt;\n  if (!navigator.cookieEnabled) {\n    window.addEventListener(&#39;DOMContentLoaded&#39;, function () {\n      var cookieEl = document.getElementById(&#39;cookie-alert&#39;);\n      cookieEl.style.display = &#39;block&#39;;\n    })\n  }\n&lt;/script&gt;\n&lt;!--&lt;![endif]--&gt;\n\n\n&lt;/head&gt;\n&lt;body&gt;\n  &lt;div id=\&quot;cf-wrapper\&quot;&gt;\n    &lt;div class=\&quot;cf-alert cf-alert-error cf-cookie-error\&quot; id=\&quot;cookie-alert\&quot; data-translate=\&quot;enable_cookies\&quot;&gt;Please enable cookies.&lt;/div&gt;\n    &lt;div id=\&quot;cf-error-details\&quot; class=\&quot;cf-error-details-wrapper\&quot;&gt;\n      &lt;div class=\&quot;cf-wrapper cf-header cf-error-overview\&quot;&gt;\n        &lt;h1 data-translate=\&quot;block_headline\&quot;&gt;Sorry, you have been blocked&lt;/h1&gt;\n        &lt;h2 class=\&quot;cf-subheadline\&quot;&gt;&lt;span data-translate=\&quot;unable_to_access\&quot;&gt;You are unable to access&lt;/span&gt; polygonscan.com&lt;/h2&gt;\n      &lt;/div&gt;&lt;!-- /.header --&gt;\n\n      &lt;div class=\&quot;cf-section cf-highlight\&quot;&gt;\n        &lt;div class=\&quot;cf-wrapper\&quot;&gt;\n          &lt;div class=\&quot;cf-screenshot-container cf-screenshot-full\&quot;&gt;\n            \n              &lt;span class=\&quot;cf-no-screenshot error\&quot;&gt;&lt;/span&gt;\n            \n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt;&lt;!-- /.captcha-container --&gt;\n\n      &lt;div class=\&quot;cf-section cf-wrapper\&quot;&gt;\n        &lt;div class=\&quot;cf-columns two\&quot;&gt;\n          &lt;div class=\&quot;cf-column\&quot;&gt;\n            &lt;h2 data-translate=\&quot;blocked_why_headline\&quot;&gt;Why have I been blocked?&lt;/h2&gt;\n\n            &lt;p data-translate=\&quot;blocked_why_detail\&quot;&gt;This website is using a security service to protect itself from online attacks. The action you just performed triggered the security solution. There are several actions that could trigger this block including submitting a certain word or phrase, a SQL command or malformed data.&lt;/p&gt;\n          &lt;/div&gt;\n\n          &lt;div class=\&quot;cf-column\&quot;&gt;\n            &lt;h2 data-translate=\&quot;blocked_resolve_headline\&quot;&gt;What can I do to resolve this?&lt;/h2&gt;\n\n            &lt;p data-translate=\&quot;blocked_resolve_detail\&quot;&gt;You can email the site owner to let them know you were blocked. Please include what you were doing when this page came up and the Cloudflare Ray ID found at the bottom of this page.&lt;/p&gt;\n          &lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt;&lt;!-- /.section --&gt;\n\n      &lt;div class=\&quot;cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300\&quot;&gt;\n  &lt;p class=\&quot;text-13\&quot;&gt;\n    &lt;span class=\&quot;cf-footer-item sm:block sm:mb-1\&quot;&gt;Cloudflare Ray ID: &lt;strong class=\&quot;font-semibold\&quot;&gt;74d2aa5ed9e27367&lt;/strong&gt;&lt;/span&gt;\n    &lt;span class=\&quot;cf-footer-separator sm:hidden\&quot;&gt;&amp;bull;&lt;/span&gt;\n    &lt;span id=\&quot;cf-footer-item-ip\&quot; class=\&quot;cf-footer-item hidden sm:block sm:mb-1\&quot;&gt;\n      Your IP:\n      &lt;button type=\&quot;button\&quot; id=\&quot;cf-footer-ip-reveal\&quot; class=\&quot;cf-footer-ip-reveal-btn\&quot;&gt;Click to reveal&lt;/button&gt;\n      &lt;span class=\&quot;hidden\&quot; id=\&quot;cf-footer-ip\&quot;&gt;62.96.232.178&lt;/span&gt;\n      &lt;span class=\&quot;cf-footer-separator sm:hidden\&quot;&gt;&amp;bull;&lt;/span&gt;\n    &lt;/span&gt;\n    &lt;span class=\&quot;cf-footer-item sm:block sm:mb-1\&quot;&gt;&lt;span&gt;Performance &amp;amp; security by&lt;/span&gt; &lt;a rel=\&quot;noopener noreferrer\&quot; href=\&quot;https://www.cloudflare.com/5xx-error-landing\&quot; id=\&quot;brand_link\&quot; target=\&quot;_blank\&quot;&gt;Cloudflare&lt;/a&gt;&lt;/span&gt;\n    \n  &lt;/p&gt;\n  &lt;script&gt;(function(){function d(){var b=a.getElementById(\&quot;cf-footer-item-ip\&quot;),c=a.getElementById(\&quot;cf-footer-ip-reveal\&quot;);b&amp;&amp;\&quot;classList\&quot;in b&amp;&amp;(b.classList.remove(\&quot;hidden\&quot;),c.addEventListener(\&quot;click\&quot;,function(){c.classList.add(\&quot;hidden\&quot;);a.getElementById(\&quot;cf-footer-ip\&quot;).classList.remove(\&quot;hidden\&quot;)}))}var a=document;document.addEventListener&amp;&amp;a.addEventListener(\&quot;DOMContentLoaded\&quot;,d)})();&lt;/script&gt;\n&lt;/div&gt;&lt;!-- /.error-footer --&gt;\n\n\n    &lt;/div&gt;&lt;!-- /#cf-error-details --&gt;\n  &lt;/div&gt;&lt;!-- /#cf-wrapper --&gt;\n\n  &lt;script&gt;\n  window._cf_translation = {};\n  \n  \n&lt;/script&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span>;
+
+        <span class="macro">assert!</span>(is_blocked_by_cloudflare_response(resp));
+    }
+}
+</code></pre></div></section></main></body></html>

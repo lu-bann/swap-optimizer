@@ -1,0 +1,160 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="hashers"><title>hashers - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-9bb858ba049f1f21.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="hashers" data-themes="" data-resource-suffix="" data-rustdoc-version="1.72.0 (5680fa18f 2023-08-23)" data-channel="1.72.0" data-search-js="search-f6292fe389d70017.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ><script src="../static.files/storage-59fd9b8ccb335783.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../hashers/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../hashers/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Crate hashers</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 1.0.1</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">hashers</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/hashers/lib.rs.html#1-464">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="hashers"><a href="#hashers">hashers</a></h2>
+<p>This module contains implementations and re-exports of a number of
+(non-cryptographic) hashing functions suitable for use with Rust’s
+HashMap and HashSet.</p>
+<p>Additionally, there are benchmarks of the hash functions and a
+couple of statistical tests for hash quality.</p>
+<h2 id="disclaimer"><a href="#disclaimer">Disclaimer</a></h2>
+<p>To quote <a href="https://github.com/cbreeden/fxhash">fxhash</a>,</p>
+<blockquote>
+<p>[None of these are] cryptographically secure hash, so it is strongly
+recommended that you do not use this hash for cryptographic
+purproses. Furthermore, this hashing algorithm was not designed to
+prevent any attacks for determining collisions which could be used
+to potentially cause quadratic behavior in HashMaps. So it is not
+recommended to expose this hash in places where collissions or DDOS
+attacks may be a concern.</p>
+</blockquote>
+<h2 id="whats-a-hasher"><a href="#whats-a-hasher">What’s a Hasher?</a></h2>
+<p>A hash function, for our purposes here, is a function that takes as
+input another, general, value, and returns a number that is
+ideally unique to that value. This number can be used to
+store the value in an array and then locate it again later
+without searching the array; in other words, in O(1) time. More or
+less: there are a lot of other details. For more information, see
+Rust’s HashMap and various information sources online.</p>
+<p>In Rust specifically, std::hash::Hasher is a trait:</p>
+<div class="example-wrap"><pre class="language-text"><code>pub trait Hasher {
+    fn finish(&amp;self) -&gt; u64;
+    fn write(&amp;mut self, bytes: &amp;[u8]);
+ 
+    fn write_u8(&amp;mut self, i: u8) { ... }
+    fn write_u16(&amp;mut self, i: u16) { ... }
+    ...
+}
+</code></pre></div>
+<p>Hasher has two required methods, <code>finish</code> and <code>write</code>, and default implementations of other
+useful methods like <code>write_u8</code> and <code>write_u16</code>, implemented by calling <code>write</code>. In use, an
+implementation of Hasher is created, data is fed to it using the various <code>write</code> methods, then
+the result is returned using the <code>finish</code> method to get the hash number out.</p>
+<h2 id="using-a-custom-hash-function-in-rust"><a href="#using-a-custom-hash-function-in-rust">Using a custom hash function in Rust</a></h2>
+<p>Using a custom hash function with Rust’s HashMap or HashSet has long been regarded as a deep
+mystery. Now, I will strip back the curtains of ignorance and reveal the secrets in all their
+unholy glory!</p>
+<p>Or something like that. It’s not really a big deal.</p>
+<p>There are two ways to create a HashMap that uses a custom Hasher implementation: setting the
+hasher on a hash-map instance, and type-level hackery.</p>
+<h3 id="explicitly-telling-a-hashmap-what-hasher-to-use"><a href="#explicitly-telling-a-hashmap-what-hasher-to-use">Explicitly telling a HashMap what Hasher to use</a></h3>
+<p>Everytime a value needs to be hashed, when inserting or querying the HashMap for example, a new
+Hasher instance is created. (Remember that the only methods in the Hasher trait update its
+state or return the final value.)</p>
+<p>As a result, instead of passing in a Hasher, we have to pass an instance of another trait,
+<code>std::hash::BuildHash</code>. Rust’s standard library currently has two implementations of that
+trait: </p>
+<ul>
+<li><code>std::collections::hash_map::RandomState</code>, which creates instances of DefaultHasher,
+Rust’s implementation of SIP-something using cryptographic keys to prevent denial-of-service
+attacks. </li>
+<li><code>std::hash::BuildHasherDefault</code>, which can create instances of any Hasher implementation that
+also implements the Default trait.</li>
+</ul>
+<p>All of the Hashers in this collection also implement Default.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::collections::HashMap;
+<span class="kw">use </span>std::hash::BuildHasherDefault;
+
+<span class="kw">use </span>hashers::fx_hash::FxHasher;
+
+<span class="comment">// BuildHasherDefault also implements Default---it&#39;s not really interesting.
+</span><span class="kw">let </span><span class="kw-2">mut </span>map =
+  HashMap::with_hasher( BuildHasherDefault::&lt;FxHasher&gt;::default() );
+
+map.insert(<span class="number">1</span>, <span class="number">2</span>);
+<span class="macro">assert_eq!</span>(map.get(<span class="kw-2">&amp;</span><span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">2</span>));</code></pre></div>
+<h3 id="using-types-to-specify-what-hasher-to-use"><a href="#using-types-to-specify-what-hasher-to-use">Using types to specify what Hasher to use</a></h3>
+<p>As an alternative, HashMap has three type-level parameters: the type of keys, the type of
+values, and a type implementing <code>std::hash::BuildHash</code>. By default, the latter is
+<code>RandomState</code>, which securely creates DefaultHashers. By replacing RandomState, the Hashers
+used by the map can be determined by the HashMap’s concrete type.
+<code>std::hash::BuildHasherDefault</code> is useful here, as well.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::collections::HashMap;
+<span class="kw">use </span>std::hash::BuildHasherDefault;
+
+<span class="kw">use </span>hashers::fnv::FNV1aHasher64;
+
+<span class="comment">// This could be more complicated.
+</span><span class="kw">fn </span>gimmie_a_map() -&gt; HashMap&lt;i32,i32,BuildHasherDefault&lt;FNV1aHasher64&gt;&gt; {
+    HashMap::default()
+}
+
+<span class="kw">let </span><span class="kw-2">mut </span>map = gimmie_a_map();
+
+map.insert(<span class="number">1</span>,<span class="number">2</span>);
+<span class="macro">assert_eq!</span>(map.get(<span class="kw-2">&amp;</span><span class="number">1</span>), <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">2</span>));</code></pre></div>
+<p>A more complicated example is the anagrams-hashmap.rs example program included with this
+module.</p>
+<h2 id="about-this-crate"><a href="#about-this-crate">About this crate</a></h2>
+<p>This collection of Hashers is based on:</p>
+<ul>
+<li>http://www.cse.yorku.ca/~oz/hash.html Oz’s Hash functions. (oz)</li>
+<li>http://www.burtleburtle.net/bob/hash/doobs.html Bob Jenkins’
+(updated) 1997 Dr. Dobbs article. (jenkins)</li>
+<li>http://burtleburtle.net/bob/hash/spooky.html Jenkin’s SpookyHash. (jenkins::spooky_hash)</li>
+<li>Rust’s builtin DefaultHasher (SIP 1-3?) (default)</li>
+<li>https://github.com/cbreeden/fxhash A fast, non-secure, hashing algorithm derived from an
+internal hasher in FireFox. (fx_hash)</li>
+<li>http://www.isthe.com/chongo/tech/comp/fnv/ The Fowler/Noll/Vo hash algorithm. (fnv)</li>
+<li>Two “null” hashers: NullHasher returns 0 for all inputs and PassThroughHasher returns the
+last 8 bytes of the data.</li>
+</ul>
+<p>Each sub-module implements one or more Hashers plus a minimal testing module. As well, the
+module has a benchmarking module for comparing the Hashers and some example programs using
+statistical tests to prod the various Hashers.</p>
+<h2 id="example-programs"><a href="#example-programs">Example programs</a></h2><h3 id="chi2"><a href="#chi2">chi2</a></h3>
+<blockquote>
+<p>The chi-squared test is used to determine whether there is a significant difference between
+the expected frequencies and the observed frequencies in one or more categories. –
+<a href="https://en.wikipedia.org/wiki/Chi-squared_test">Chi-squared test</a></p>
+</blockquote>
+<p>This program attempts to compute the hash values for one of a number of data sets, then
+simulates using those values in a 128-bucket hash table (a 2^7 - 1 mask) and tries to determine
+if the hash buckets are uniformly distributed. I think. I’m not a statistician and apparently
+not much of a programmer any more. Sorry.</p>
+<p>Anyway, it shows what may be the chi2 test of the lower bits of the hash values for a number of
+samples and for each Hasher. Numbers closer to 0 are better, and between 3.0 and -3.0 are
+apparently “ok.” Maybe.</p>
+<p>The samples are:</p>
+<ul>
+<li>1000 uniformly distributed 6-byte binary values.</li>
+<li>1000 uniformly distributed 6-byte alphanumeric (ASCII) values.</li>
+<li>1000 generated identifiers of the form ‘annnnn’.</li>
+<li>The words from data/words.txt</li>
+</ul>
+<h3 id="kolmogorov-smirnov"><a href="#kolmogorov-smirnov">kolmogorov-smirnov</a></h3>
+<blockquote>
+<p>The Kolmogorov–Smirnov statistic quantifies a distance
+between the empirical distribution function of the
+sample and the cumulative distribution function of
+the reference distribution. – <a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test">Kolmogorov–Smirnov
+test</a>.</p>
+</blockquote>
+<p>Ok, this one I have a bit more confidence in. It hashes the same samples as the chi2 program,
+then attempts to determine how far from uniformly distributed the 64-bit hash values are,
+reporting values between 0.0 and 1.0. Lower values are better. 32-bit hashes like DJB2
+trivially fail this test, though, although they may be fine for HashMaps with much less than 2^32
+entries.</p>
+<h3 id="anagrams-hashmap"><a href="#anagrams-hashmap">anagrams-hashmap</a></h3>
+<p>This program finds the number of words that can be made from the letters
+“asdwtribnowplfglewhqagnbe”, based on the anagrams dictionary in data/anadict.txt. (There are
+7440 of them.) It uses implementations of HashMap and HashSet parameterized by Hashers, and
+reports the time taken by each hasher as well as a comparison with DefaultHasher.</p>
+<p>For more information, check out my ancient series of blog posts:</p>
+<ul>
+<li>https://maniagnosis.crsr.net/2013/02/creating-letterpress-cheating-program.html</li>
+<li>https://maniagnosis.crsr.net/2014/01/letterpress-cheating-in-rust-09.html</li>
+<li>https://maniagnosis.crsr.net/2016/01/letterpress-cheating-in-rust-16-how.html
+And others.</li>
+</ul>
+</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="builtin/index.html" title="mod hashers::builtin">builtin</a></div><div class="desc docblock-short">For easy access, reexport the built-in hash map’s DefaultHasher,
+including a matching one-stop function.</div></li><li><div class="item-name"><a class="mod" href="fnv/index.html" title="mod hashers::fnv">fnv</a></div><div class="desc docblock-short">The <a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function">Fowler–Noll–Vo hash function</a>.</div></li><li><div class="item-name"><a class="mod" href="fx_hash/index.html" title="mod hashers::fx_hash">fx_hash</a></div><div class="desc docblock-short">From https://github.com/cbreeden/fxhash</div></li><li><div class="item-name"><a class="mod" href="jenkins/index.html" title="mod hashers::jenkins">jenkins</a></div><div class="desc docblock-short">From http://www.burtleburtle.net/bob/hash/doobs.html.</div></li><li><div class="item-name"><a class="mod" href="null/index.html" title="mod hashers::null">null</a></div><div class="desc docblock-short">Poor Hashers used for testing purposes.</div></li><li><div class="item-name"><a class="mod" href="oz/index.html" title="mod hashers::oz">oz</a></div><div class="desc docblock-short">From http://www.cse.yorku.ca/~oz/hash.html.</div></li><li><div class="item-name"><a class="mod" href="pigeon/index.html" title="mod hashers::pigeon">pigeon</a></div><div class="desc docblock-short">Hash functions by Steven Pigeon (https://hbfs.wordpress.com/)</div></li></ul></section></div></main></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"static":["IUNISWAPV3POOL_ABI"],"struct":["IUniswapV3Pool","TickBitmapCall","TickBitmapReturn"]};

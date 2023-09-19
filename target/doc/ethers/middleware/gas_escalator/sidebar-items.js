@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Frequency","GasEscalatorError"],"struct":["EscalationTask","GasEscalatorMiddleware","GeometricGasPrice","LinearGasPrice"],"trait":["GasEscalator"]};

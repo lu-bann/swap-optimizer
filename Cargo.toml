@@ -1,0 +1,21 @@
+[package]
+name = "swap-optimizer"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+alloy-sol-types = "0.2.0"
+alloy-primitives = "0.2.0"
+anyhow = "1.0.75"
+argmin = "0.8.1"
+cfmms = { git = "https://github.com/da-bao-jian/cfmms-rs", branch="main" }
+dotenv = "0.15.0"
+env_logger = "0.10.0"
+ethers = "2.0.10"
+log = "0.4.20"
+serde = "1.0.188"
+thiserror = "1.0.48"
+tokio = { version = "1.32.0", features = ["macros", "rt-multi-thread"] }
+uniswap_v3_math = "0.4.0"

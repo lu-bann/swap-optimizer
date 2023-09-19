@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["condition"],"struct":["BacktrackingLineSearch","HagerZhangLineSearch","MoreThuenteLineSearch"],"trait":["LineSearch"]};

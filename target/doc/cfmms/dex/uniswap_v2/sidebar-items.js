@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["PAIR_CREATED_EVENT_SIGNATURE"],"struct":["UniswapV2Dex"]};

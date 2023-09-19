@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["compact"],"struct":["Hyphenated","HyphenatedRef","Simple","SimpleRef","Urn","UrnRef"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["ERC1155_BALANCE_SELECTOR","ERC721_OWNER_SELECTOR"],"enum":["ERCNFTType"],"fn":["http_link_ipfs"],"struct":["ERCNFT","Metadata"]};

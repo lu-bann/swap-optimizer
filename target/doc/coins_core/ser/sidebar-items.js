@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ReadSeqMode","SerError"],"fn":["first_byte_from_len","prefix_byte_len","prefix_len_from_first_byte","read_compact_int","read_prefix_vec","read_u32_le","read_u64_le","write_compact_int","write_prefix_vec","write_u32_le","write_u64_le"],"trait":["ByteFormat"],"type":["SerResult"]};

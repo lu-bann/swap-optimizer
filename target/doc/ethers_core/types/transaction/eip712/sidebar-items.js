@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["EIP712_DOMAIN_TYPE_HASH","EIP712_DOMAIN_TYPE_HASH_WITH_SALT"],"enum":["Eip712Error"],"fn":["encode_data","encode_eip712_type","encode_field","encode_type","hash_struct","hash_type","make_type_hash"],"struct":["EIP712Domain","EIP712WithDomain","Eip712DomainType","TypedData"],"trait":["Eip712"],"type":["Types"]};

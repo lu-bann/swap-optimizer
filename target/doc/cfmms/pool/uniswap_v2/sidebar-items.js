@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["SYNC_EVENT_SIGNATURE"],"struct":["UniswapV2Pool"]};

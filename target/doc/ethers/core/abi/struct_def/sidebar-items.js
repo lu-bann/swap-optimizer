@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["FieldType","StructFieldType"],"struct":["FieldDeclaration","MappingType","SolStruct","StructFieldDeclaration","StructType"]};

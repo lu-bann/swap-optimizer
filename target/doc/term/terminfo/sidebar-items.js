@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Error"],"mod":["parm","parser","searcher"],"struct":["TermInfo","TerminfoTerminal"]};

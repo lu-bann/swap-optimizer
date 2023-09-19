@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Variant","Version"],"mod":["adapter"],"struct":["Builder","Error","Uuid"],"type":["Bytes"]};

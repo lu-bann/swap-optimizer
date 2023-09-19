@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"slog_term":[["impl&lt;'a&gt; <a class=\"trait\" href=\"slog/trait.Serializer.html\" title=\"trait slog::Serializer\">Serializer</a> for <a class=\"struct\" href=\"slog_term/struct.CompactFormatSerializer.html\" title=\"struct slog_term::CompactFormatSerializer\">CompactFormatSerializer</a>&lt;'a&gt;"],["impl&lt;'a&gt; <a class=\"trait\" href=\"slog/trait.Serializer.html\" title=\"trait slog::Serializer\">Serializer</a> for <a class=\"struct\" href=\"slog_term/struct.Serializer.html\" title=\"struct slog_term::Serializer\">Serializer</a>&lt;'a&gt;"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

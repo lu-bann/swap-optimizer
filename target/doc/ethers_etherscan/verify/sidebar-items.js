@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CodeFormat"],"struct":["VerifyContract","VerifyProxyContract"]};

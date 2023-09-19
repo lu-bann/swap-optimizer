@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["MultiAbigen","MultiBindings","MultiExpansion","MultiExpansionResult"]};

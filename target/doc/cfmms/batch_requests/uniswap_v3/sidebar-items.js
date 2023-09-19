@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["get_pool_data_batch_request","get_uniswap_v3_tick_data_batch_request","get_v3_pool_data_batch_request","sync_v3_pool_batch_request"],"mod":["get_uniswap_v3_pool_data_batch_request","get_uniswap_v3_tick_data_batch_request","sync_uniswap_v3_pool_batch_request"],"struct":["UniswapV3TickData"]};

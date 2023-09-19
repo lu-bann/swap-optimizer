@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"derive":["Eip712","EthAbiCodec","EthAbiType","EthCall","EthDisplay","EthError","EthEvent"],"macro":["abigen"]};
